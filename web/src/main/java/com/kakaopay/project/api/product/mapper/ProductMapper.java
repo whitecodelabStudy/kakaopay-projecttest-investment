@@ -13,10 +13,10 @@ public interface ProductMapper {
 
   ProductModel selectProductById(long productId);
 
-  int  deleteProduct(long productId);
+  int deleteProduct(long productId);
 
-  int  updateProduct(ProductModel productModel);
+  int updateProduct(ProductModel productModel);
 
-  int  insertProduct(ProductModel productModel);
+  int insertProduct(ProductModel productModel);
 
 }

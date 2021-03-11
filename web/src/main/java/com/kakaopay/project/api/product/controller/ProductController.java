@@ -31,7 +31,7 @@ public class ProductController {
     return new ApiResponseJson.Builder(productService.getProductList()).build();
   }
 
-  @GetMapping("/{productid}")
+  @GetMapping("/{productId}")
   public @ResponseBody ApiResponseJson getProduct(@PathVariable long productId) {
     return new ApiResponseJson.Builder(productService.getProductById(productId)).build();
   }
