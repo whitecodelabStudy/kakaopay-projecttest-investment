@@ -1,0 +1,61 @@
+ext {
+    checkStylePath = file('coding_convention/checkstyle/google_checks.xml')
+    reportPath = file('output/report');
+    reportPathA = reportPath.absolutePath.toString()
+}
+if (!ext.reportPath.exists()) { // 폴더가 없는 경우에 신규 생성
+    ext.reportPath.mkdir()
+}
+
+allprojects {
+    group = 'com.kakaopay.project'
+    version = '0.0.1-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'checkstyle'
+    apply plugin: 'pmd'
+
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+    // checkstyle
+    checkstyle {
+        configFile = rootProject.ext.checkStylePath // 1.1.2 에서 작성한 checkstyle 파일 지정
+        ignoreFailures = true // 분석결과 예외가 발생하면 빌드실패 발생시키는 것을 여부(true 무시, false 무시안함)
+        toolVersion = '8.13'   // checkstyle 버전.
+        //reportsDir = file("${buildDir}/report") // 리포트 파일이 위치할 디렉토리 지정
+    }
+    checkstyleMain {
+        reports {
+            xml.enabled = true;
+            xml.destination = file("${rootProject.ext.reportPathA}/checkstyle/${project.name}.xml")
+            //html.enabled = false
+        }
+    }
+    // pmd Configuration
+    pmd {
+        consoleOutput = true
+        toolVersion = '6.30.0'
+        ruleSetFiles = files("${rootProject.projectDir}/coding_convention/pmd/pmdRuleSet.xml")
+        ignoreFailures = true // 분석결과 예외가 발생하면 빌드실패 발생시키는 것을 여부(true 무시, false 무시안함)
+        reportsDir = file("${buildDir}/report")
+    }
+
+    pmdMain {
+        reports {
+            xml.destination = file("${rootProject.ext.reportPathA}/pmd/${project.name}.xml")
+            xml.enabled = true
+            //html.enabled = false
+        }
+    }
+}
