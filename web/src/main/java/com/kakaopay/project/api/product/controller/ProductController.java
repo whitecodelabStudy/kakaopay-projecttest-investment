@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kakaopay.project.api.product.model.ProductModel;
+import com.kakaopay.project.api.product.dto.ProductDto;
 import com.kakaopay.project.api.product.service.ProductService;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
 
@@ -37,14 +37,14 @@ public class ProductController {
   }
 
   @PostMapping
-  public @ResponseBody ApiResponseJson addProduct(@RequestBody ProductModel productModel) {
-    productService.addProduct(productModel);
+  public @ResponseBody ApiResponseJson addProduct(@RequestBody ProductDto ProductDto) {
+    productService.addProduct(ProductDto);
     return new ApiResponseJson();
   }
 
   @PutMapping
-  public @ResponseBody ApiResponseJson updateProduct(@RequestBody ProductModel productModel) {
-    productService.updateProduct(productModel);
+  public @ResponseBody ApiResponseJson updateProduct(@RequestBody ProductDto ProductDto) {
+    productService.updateProduct(ProductDto);
     return new ApiResponseJson();
   }
 

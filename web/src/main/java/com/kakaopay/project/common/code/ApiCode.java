@@ -11,7 +11,9 @@ public enum ApiCode {
     // 공통 응답 코드 - 성공
     SUCCESS("SUC-0000"),
     // 알수없는 오류
-    UNKNOWN_ERROR("ERR-9999");
+    UNKNOWN_ERROR("ERR-9999"),
+    // SOLD_OUT
+    SOLD_OUT("ERR-0001");
 
   private String errorCode;
 

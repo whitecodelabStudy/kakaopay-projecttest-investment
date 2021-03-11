@@ -1,38 +1,67 @@
-package com.kakaopay.project.api.product.model;
+package com.kakaopay.project.api.product.dto;
+
+import com.kakaopay.project.api.enumtype.ProductType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
-public class ProductModel {
+@AllArgsConstructor
+public class ProductDto {
 
+  /**
+   * 상품 id
+   */
   @Setter
   private Long productId;
 
+  /**
+   * 투자명
+   */
   @NonNull
   private String title;
 
+  /**
+   * 상품 유형
+   */
   @NonNull
   private ProductType productType;
 
+  /**
+   * 총 투자 모집 금액
+   */
   @NonNull
   private Long totalInvestingAmount;
 
+  /**
+   * 투자시작일시
+   */
   @NonNull
   private String startedAt;
 
+  /**
+   * 투자종료일시
+   */
   @NonNull
   private String finishedAt;
 
+  /**
+   * 생성시간
+   */
   @Setter
   private String createdTime;
 
+  /**
+   * 수정시간
+   */
   @Setter
   private String modifiedTime;
 
+  /**
+   * 상품 등록자
+   */
   @NonNull
   private Long registrantId;
 

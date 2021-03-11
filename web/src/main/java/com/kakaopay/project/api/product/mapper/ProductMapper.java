@@ -4,19 +4,19 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.kakaopay.project.api.product.model.ProductModel;
+import com.kakaopay.project.api.product.dto.ProductDto;
 
 @Mapper
 public interface ProductMapper {
 
-  List<ProductModel> selectProductList();
+  List<ProductDto> selectProductList();
 
-  ProductModel selectProductById(long productId);
+  ProductDto selectProductById(long productId);
 
   int deleteProduct(long productId);
 
-  int updateProduct(ProductModel productModel);
+  int updateProduct(ProductDto ProductDto);
 
-  int insertProduct(ProductModel productModel);
+  int insertProduct(ProductDto ProductDto);
 
 }

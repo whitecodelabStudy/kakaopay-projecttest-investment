@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kakaopay.project.api.product.mapper.ProductMapper;
-import com.kakaopay.project.api.product.model.ProductModel;
+import com.kakaopay.project.api.product.dto.ProductDto;
 
 @Service
 @Transactional
@@ -20,24 +20,24 @@ public class ProductService {
     this.productMapper = productMapper;
   }
 
-  public List<ProductModel> getProductList() {
+  public List<ProductDto> getProductList() {
     return productMapper.selectProductList();
   }
 
-  public ProductModel getProductById(long id) {
+  public ProductDto getProductById(long id) {
     return productMapper.selectProductById(id);
   }
 
-  public void updateProduct(ProductModel productModel) {
-    productMapper.updateProduct(productModel);
+  public void updateProduct(ProductDto ProductDto) {
+    productMapper.updateProduct(ProductDto);
   }
 
   public void deleteProduct(long id) {
     productMapper.deleteProduct(id);
   }
 
-  public void addProduct(ProductModel productModel) {
-    productMapper.insertProduct(productModel);
+  public void addProduct(ProductDto ProductDto) {
+    productMapper.insertProduct(ProductDto);
   }
 
 }

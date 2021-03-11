@@ -3,7 +3,6 @@ package com.kakaopay.project.api.product.mapper;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,17 +16,24 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProductMapperTest {
+class ProductDtoMapperTest {
 
   private MockMvc mockMvc;
+
   @Autowired
   private WebApplicationContext webApplicationContext;
 
-  @Test
+  // @Test
   public void getProductListTest() throws Exception {
-    // createTestEmployee("bob");
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/api/product").contentType(MediaType.APPLICATION_JSON))
+    this.mockMvc.perform(MockMvcRequestBuilders.get("/api/product/list").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
   }
+
+  // @Test
+  public void getProductTest() throws Exception {
+    this.mockMvc.perform(MockMvcRequestBuilders.get("/api/product/1").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+  }
+
 
 }
