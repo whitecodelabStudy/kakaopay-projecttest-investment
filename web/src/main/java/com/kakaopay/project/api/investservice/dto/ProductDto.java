@@ -1,6 +1,6 @@
-package com.kakaopay.project.api.invest.dto;
+package com.kakaopay.project.api.investservice.dto;
 
-import com.kakaopay.project.api.enumtype.ProductType;
+import com.kakaopay.project.common.enumtype.ProductType;
 
 import lombok.Getter;
 import lombok.NonNull;

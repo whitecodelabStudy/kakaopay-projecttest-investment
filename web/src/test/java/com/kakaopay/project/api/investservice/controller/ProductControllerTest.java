@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.invest.controller;
+package com.kakaopay.project.api.investservice.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

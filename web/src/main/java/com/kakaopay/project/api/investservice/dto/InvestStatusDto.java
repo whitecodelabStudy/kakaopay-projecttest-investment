@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.invest.dto;
+package com.kakaopay.project.api.investservice.dto;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class ProductInvestStatusDto {
+public class InvestStatusDto {
 
   /**
    * 투자 상태

@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.invest.dto;
+package com.kakaopay.project.api.investservice.dto;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @RequiredArgsConstructor
-public class ProductInvestDto {
+public class InvestProductDto {
 
   /**
    * 상품 id

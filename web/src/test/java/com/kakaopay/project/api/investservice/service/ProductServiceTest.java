@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.invest.service;
+package com.kakaopay.project.api.investservice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.kakaopay.project.api.enumtype.ProductType;
-import com.kakaopay.project.api.invest.dto.ProductDto;
-import com.kakaopay.project.api.invest.dto.ProductSearchDto;
+import com.kakaopay.project.common.enumtype.ProductType;
+import com.kakaopay.project.api.investservice.dto.ProductDto;
+import com.kakaopay.project.api.investservice.dto.ProductSearchDto;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WebApplication.class)

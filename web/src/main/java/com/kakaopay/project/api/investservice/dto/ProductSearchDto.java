@@ -1,7 +1,7 @@
-package com.kakaopay.project.api.invest.dto;
+package com.kakaopay.project.api.investservice.dto;
 
-import com.kakaopay.project.api.enumtype.InvestmentRecruitmentStatus;
-import com.kakaopay.project.api.enumtype.ProductType;
+import com.kakaopay.project.common.enumtype.InvestmentRecruitmentStatus;
+import com.kakaopay.project.common.enumtype.ProductType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

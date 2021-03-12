@@ -1,12 +1,12 @@
-package com.kakaopay.project.api.invest.mapper;
+package com.kakaopay.project.api.investservice.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
-import com.kakaopay.project.api.invest.dto.ProductDto;
-import com.kakaopay.project.api.invest.dto.ProductSearchDto;
+import com.kakaopay.project.api.investservice.dto.ProductDto;
+import com.kakaopay.project.api.investservice.dto.ProductSearchDto;
 
 @Mapper
 @Component

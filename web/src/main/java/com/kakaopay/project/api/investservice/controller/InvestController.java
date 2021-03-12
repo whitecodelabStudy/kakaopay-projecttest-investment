@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.invest.controller;
+package com.kakaopay.project.api.investservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kakaopay.project.api.invest.dto.ProductInvestDto;
-import com.kakaopay.project.api.invest.dto.ProductInvestStatusDto;
-import com.kakaopay.project.api.invest.service.InvestService;
+import com.kakaopay.project.api.investservice.dto.InvestProductDto;
+import com.kakaopay.project.api.investservice.service.InvestService;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
 
 @RestController
@@ -25,12 +24,10 @@ public class InvestController {
   }
 
   @PostMapping
-  public @ResponseBody ApiResponseJson addProduct(@RequestBody ProductInvestDto productInvestDto,
+  public @ResponseBody ApiResponseJson addProduct(@RequestBody InvestProductDto investProductDto,
       @RequestHeader(value = "X-USER-ID") long investorId) {
-    productInvestDto.setInvestorId(investorId);
-    ProductInvestStatusDto productInvestStatusDto = investService.insertProductInvest(productInvestDto);
-
-    return new ApiResponseJson();
+    investProductDto.setInvestorId(investorId);
+    return new ApiResponseJson.Builder(investService.insertProductInvest(investProductDto)).build();
   }
 
 }

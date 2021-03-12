@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.invest.service;
+package com.kakaopay.project.api.investservice.service;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kakaopay.project.api.invest.dto.ProductDto;
-import com.kakaopay.project.api.invest.dto.ProductSearchDto;
-import com.kakaopay.project.api.invest.mapper.ProductMapper;
+import com.kakaopay.project.api.investservice.dto.ProductDto;
+import com.kakaopay.project.api.investservice.dto.ProductSearchDto;
+import com.kakaopay.project.api.investservice.mapper.ProductMapper;
 
 @Service
 public class ProductService {
