@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.kakaopay.project.common.code.ApiCode;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ApiResponseJson {
 
   private String resultCode = ApiCode.SUCCESS.getCode();
@@ -17,58 +22,22 @@ public class ApiResponseJson {
   /**
    * ApiResponseJson.
    *
-   * @param builder
+   * @param builder response json builder
    */
   public ApiResponseJson(final Builder builder) {
     this.response = builder.builderResponse;
   }
 
   /**
-   * setResultCode
-   * 
-   * @return
-   */
-  public String getResultCode() {
-    return resultCode;
-  }
-
-  /**
-   * setResultCode
-   * 
-   * @param resultCode
-   */
-  public void setResultCode(final String resultCode) {
-    this.resultCode = resultCode;
-  }
-
-  /**
-   * getResponse
-   * 
-   * @return
-   */
-  public List<Object> getResponse() {
-    return response;
-  }
-
-  /**
-   * setResponse
-   *
-   * @param response
-   */
-  public void setResponse(final List<Object> response) {
-    this.response = response;
-  }
-
-  /**
    * Builder
    */
   public static class Builder {
-    private transient List<Object> builderResponse;
+    private List<Object> builderResponse;
 
     /**
      * Builder
      *
-     * @param response
+     * @param response response builder
      */
     public Builder(final Object response) {
       if (response instanceof List) {
@@ -81,7 +50,7 @@ public class ApiResponseJson {
     /**
      * setResponse
      *
-     * @param response
+     * @param response response
      * @return Builder
      */
     public Builder setResponse(final Object response) {

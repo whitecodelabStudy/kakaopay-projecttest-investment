@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("com.kakaopay.project")
-@MapperScan("com.kakaopay.project.api.investservice")
+@MapperScan("com.kakaopay.project.api.investment")
 public class WebApplication {
 
   public static void main(String[] args) {

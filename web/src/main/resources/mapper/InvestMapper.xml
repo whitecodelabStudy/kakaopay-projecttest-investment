@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
 
-<mapper namespace="InvestMapper">
-    <select id="insertProductInvest" parameterType="com.kakaopay.project.api.investservice.dto.InvestProductDto"
-            resultType="com.kakaopay.project.api.investservice.dto.InvestStatusDto">
+<mapper namespace="com.kakaopay.project.api.investment.mapper.InvestMapper">
+    <select id="insertProductInvest" parameterType="com.kakaopay.project.api.investment.dto.InvestProductDto"
+            resultType="com.kakaopay.project.api.investment.dto.InvestStatusDto">
         SELECT invest_status, fail_reason
-        FROM sp_set_product_invest(#{productId}, #{investorId}, #{investedAmount});
+        FROM sp_set_product_invest(#{productId}, #{investorNo}, #{investedAmount});
     </select>
 </mapper>
