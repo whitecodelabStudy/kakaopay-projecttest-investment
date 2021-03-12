@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.product.controller;
+package com.kakaopay.project.api.invest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kakaopay.project.api.product.dto.ProductDto;
-import com.kakaopay.project.api.product.service.ProductService;
+import com.kakaopay.project.api.invest.dto.ProductDto;
+import com.kakaopay.project.api.invest.service.ProductService;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
 
 @RestController

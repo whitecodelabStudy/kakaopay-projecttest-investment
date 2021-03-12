@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.product.service;
+package com.kakaopay.project.api.invest.service;
 
 import java.util.List;
 
@@ -6,38 +6,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kakaopay.project.api.product.mapper.ProductMapper;
-import com.kakaopay.project.api.product.dto.ProductDto;
+import com.kakaopay.project.api.invest.dto.ProductDto;
+import com.kakaopay.project.api.invest.dto.ProductSearchDto;
+import com.kakaopay.project.api.invest.mapper.ProductMapper;
 
 @Service
-@Transactional
 public class ProductService {
 
-  private final transient ProductMapper productMapper;
+  private final ProductMapper productMapper;
 
   @Autowired
   public ProductService(ProductMapper productMapper) {
     this.productMapper = productMapper;
   }
 
-  public List<ProductDto> getProductList() {
+  @Transactional
+  public List<ProductSearchDto> getProductList() {
     return productMapper.selectProductList();
   }
 
-  public ProductDto getProductById(long id) {
+  @Transactional
+  public ProductSearchDto getProductById(long id) {
     return productMapper.selectProductById(id);
   }
 
+  @Transactional
   public void updateProduct(ProductDto ProductDto) {
     productMapper.updateProduct(ProductDto);
   }
 
+  @Transactional
   public void deleteProduct(long id) {
     productMapper.deleteProduct(id);
   }
 
+  @Transactional
   public void addProduct(ProductDto ProductDto) {
     productMapper.insertProduct(ProductDto);
+  }
+
+  @Transactional
+  public int selectProductCount() {
+    return productMapper.selectProductCount();
   }
 
 }
