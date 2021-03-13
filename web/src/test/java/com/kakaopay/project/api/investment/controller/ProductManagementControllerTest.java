@@ -15,7 +15,7 @@ import com.kakaopay.project.web.WebApplication;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WebApplication.class)
 @AutoConfigureMockMvc
-public class ProductControllerTest {
+public class ProductManagementControllerTest {
 
   @Autowired
   private MockMvc mockMvc;

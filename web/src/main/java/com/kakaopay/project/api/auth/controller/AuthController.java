@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kakaopay.project.api.auth.dto.AuthInvestorDto;
+import com.kakaopay.project.api.auth.dto.AuthMemberDto;
 import com.kakaopay.project.api.auth.service.CustomUserDetailService;
 import com.kakaopay.project.api.auth.service.JwtUtil;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
+import com.kakaopay.project.common.code.ApiCode;
 import com.kakaopay.project.common.exception.ApiException;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,22 +40,23 @@ public class AuthController {
   }
 
   @PostMapping(value = "/authenticate")
-  public ResponseEntity<ApiResponseJson> generateToken(@RequestBody AuthInvestorDto authInvestorDto) {
+  @ApiOperation(value = "token 발급", notes = "사용자 로그인 후 jwt token 을 발급한다.")
+  public ResponseEntity<ApiResponseJson> generateToken(@RequestBody AuthMemberDto authMemberDto) {
     try {
-      log.debug(authInvestorDto.toString());
       this.authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(authInvestorDto.getInvestId(), authInvestorDto.getPassword()));
-      UserDetails userDetails = this.customUserDetailService.loadUserByUsername(authInvestorDto.getInvestId());
+          new UsernamePasswordAuthenticationToken(authMemberDto.getMemberId(), authMemberDto.getPassword()));
+      UserDetails userDetails =
+          this.customUserDetailService.loadUserByUsername(String.valueOf(authMemberDto.getMemberId()));
       String token = this.jwtUtil.generateToken(userDetails);
       log.debug(token);
       return ResponseEntity.ok(new ApiResponseJson.Builder(token).build());
     } catch (UsernameNotFoundException e) {
-      log.error("Investor not found!!", e);
-      throw new ApiException();
+      log.error("Member not found!!", e);
+      throw new ApiException(ApiCode.MEMBER_NOT_FOUND, "Member not found!!", e);
     } catch (BadCredentialsException be) {
-      log.error("", be);
-      throw new ApiException();
+      log.error("Bad Credentials!!", be);
+      throw new ApiException(ApiCode.BAD_CREDENTIALS, "Bad Credentials!!", be);
     }
-
   }
+
 }

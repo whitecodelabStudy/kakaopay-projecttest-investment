@@ -1,16 +1,16 @@
-package com.kakaopay.project.api.investment.dto.admin;
+package com.kakaopay.project.api.member.dto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class UpdateAdminDto {
+public class AddMemberDto {
 
   /**
-   * adminId
+   * memberId
    */
-  private String adminId;
+  private Long memberId;
   /**
    * name
    */
@@ -19,5 +19,9 @@ public class UpdateAdminDto {
    * password
    */
   private String password;
+  /**
+   * memberType
+   */
+  private String memberType;
 
 }

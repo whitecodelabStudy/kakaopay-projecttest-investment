@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaopay.project.api.member.mapper.MemberMapper">
+
+    <insert id="insertMember" parameterType="com.kakaopay.project.api.member.dto.AddMemberDto">
+        INSERT INTO tb_member
+            (member_id, name, password, member_type, created_time, modified_time)
+        VALUES
+            (#{memberId}, #{name}, #{password}, #{memberType}, now(), now())
+    </insert>
+
+    <update id="updateMember" parameterType="com.kakaopay.project.api.member.dto.UpdateMemberDto">
+        UPDATE tb_member
+        SET
+          name = #{name},
+          password = #{password},
+          modified_time = now()
+        WHERE member_id = #{memberId}
+    </update>
+
+    <select id="selectMemberById" parameterType="long" resultType="com.kakaopay.project.api.member.dto.MemberDetailDto">
+        SELECT
+            member_id
+            , name
+            , password
+            , modified_time
+            , created_time
+            , member_type
+        FROM tb_member
+        WHERE member_id = #{memberId}
+    </select>
+
+</mapper>

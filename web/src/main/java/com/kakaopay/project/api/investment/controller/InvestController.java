@@ -25,8 +25,8 @@ public class InvestController {
 
   @PostMapping
   public @ResponseBody ApiResponseJson investProduct(@RequestBody InvestProductDto investProductDto,
-      @RequestHeader(value = "X-USER-ID") long investorNo) {
-    investProductDto.setInvestorNo(investorNo);
+      @RequestHeader(value = "X-USER-ID") long memberId) {
+    investProductDto.setMemberId(memberId);
     return new ApiResponseJson.Builder(investService.insertProductInvest(investProductDto)).build();
   }
 

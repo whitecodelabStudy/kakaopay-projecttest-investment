@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.investment.dto;
+package com.kakaopay.project.api.productmanagement.dto;
 
 import com.kakaopay.project.common.enumtype.ProductType;
 
@@ -63,6 +63,6 @@ public class ProductDto {
    * 상품 관리자 식별자
    */
   @NonNull
-  private final Long adminNo;
+  private final Long memberId;
 
 }

@@ -5,6 +5,6 @@
     <select id="insertProductInvest" parameterType="com.kakaopay.project.api.investment.dto.InvestProductDto"
             resultType="com.kakaopay.project.api.investment.dto.InvestStatusDto">
         SELECT invest_status, fail_reason
-        FROM sp_set_product_invest(#{productId}, #{investorNo}, #{investedAmount});
+        FROM sp_set_product_invest(#{productId}, #{memberId}, #{investedAmount});
     </select>
 </mapper>

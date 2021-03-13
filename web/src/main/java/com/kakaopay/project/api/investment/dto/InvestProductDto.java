@@ -18,7 +18,7 @@ public class InvestProductDto {
    * 투자자 식별자
    */
   @Setter
-  private Long investorNo;
+  private Long memberId;
   /**
    * 투자금액
    */

@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.investment.dto;
+package com.kakaopay.project.api.productmanagement.dto;
 
 import com.kakaopay.project.common.enumtype.InvestmentRecruitmentStatus;
 import com.kakaopay.project.common.enumtype.ProductType;
@@ -64,7 +64,7 @@ public class ProductSearchDto {
    * 상품 관리자 식별자
    */
   @NonNull
-  private Long adminNo;
+  private Long memberId;
 
   /**
    * 투자자 수

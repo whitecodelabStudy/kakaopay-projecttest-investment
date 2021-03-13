@@ -60,7 +60,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // cors disable
         .cors().disable()
         // token 관련 url
-        .authorizeRequests().antMatchers("/authenticate").permitAll()
+        .authorizeRequests()
+            // 인증없이 허용
+            .antMatchers("/authenticate").permitAll()
+            // 해당 권한 사용자만 가능
+            .antMatchers("/product/**").hasRole("ADMIN")
         // 토큰을 활용하는 경우 모든 요청에 대해 접근이 가능하도록 함
         .anyRequest().authenticated()
         // and
