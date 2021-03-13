@@ -10,14 +10,14 @@ public class AddAdminDto {
   /**
    * adminId
    */
-  private Long adminId;
+  private String adminId;
   /**
    * name
    */
-  private Long name;
+  private String name;
   /**
    * password
    */
-  private Long password;
+  private String password;
 
 }

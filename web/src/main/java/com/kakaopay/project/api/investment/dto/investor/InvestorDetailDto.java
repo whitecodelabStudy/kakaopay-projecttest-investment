@@ -8,28 +8,28 @@ import lombok.RequiredArgsConstructor;
 public class InvestorDetailDto {
 
   /**
-   * investorNd
+   * investorNo
    */
-  private Long investorNd;
+  private Long investorNo;
   /**
    * investorId
    */
-  private Long investorId;
+  private String investorId;
   /**
    * name
    */
-  private Long name;
+  private String name;
   /**
    * password
    */
-  private Long password;
+  private String password;
   /**
    * modifiedTime
    */
-  private Long modifiedTime;
+  private String modifiedTime;
   /**
    * createdTime
    */
-  private Long createdTime;
+  private String createdTime;
 
 }

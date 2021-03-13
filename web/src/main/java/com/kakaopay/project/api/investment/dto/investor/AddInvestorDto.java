@@ -10,14 +10,14 @@ public class AddInvestorDto {
   /**
    * investorId
    */
-  private Long investorId;
+  private String investorId;
   /**
    * name
    */
-  private Long name;
+  private String name;
   /**
    * password
    */
-  private Long password;
+  private String password;
 
 }
