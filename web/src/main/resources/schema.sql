@@ -228,3 +228,5 @@ BEGIN
     RETURN QUERY SELECT v_invest_status, v_fail_reason;
 END;
 $$;
+
+

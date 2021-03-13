@@ -40,3 +40,28 @@ API의HTTPMethod들(GET|POST|PUT|DEL)은자유롭게선택하세요.
 
 
 ## 실행 ##
+## POSTGRES docker 설치 및 세팅.
+## 1. postgres image 가져오기.
+> docker pull postgres:12.6
+
+## 2. docker images 명령어로 postgres image 확인
+> docker images
+REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
+postgres                     latest    1f0815c1cb6e   3 weeks ago    314MB
+
+## 3. postgres 컨테이너 실행 및 세팅.
+docker run -p 12505:5432 -d --name kakaopay-postgres -e POSTGRES_PASSWORD=1q2w3e4r -e POSTGRES_USER=kakaopay -e POSTGRES_INITDB_WALDIR=/var/lib/postgresql/log -e PGDATA=/var/lib/postgresql/data/pgdata -v C:\Users\Lee-SangSub\IdeaProjects\kakaopay-postgres\data:/var/lib/postgresql/data -v C:\Users\Lee-SangSub\IdeaProjects\kakaopay-postgres\log:/var/lib/postgresql/log postgres:12.6
+
+## 4. kakaopay database 및 user 생성
+# postgres 접속
+docker exec -it -u postgres kaka-pay-postgres psql
+# kakaopay user 생성
+CREATE USER kakaopay WITH SUPERUSER CREATEDB LOGIN ENCRYPTED PASSWORD 'kakaopay';
+# kakaopay-project database 생성
+
+
+
+
+
+
+docker exec -it -u postgres kakaopay-postgres psql kakaopay -U kakaopay -h localhost --port 5432 --password
