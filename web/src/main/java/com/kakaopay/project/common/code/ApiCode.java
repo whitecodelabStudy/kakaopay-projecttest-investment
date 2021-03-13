@@ -13,7 +13,11 @@ public enum ApiCode {
     // 알수없는 오류
     UNKNOWN_ERROR("ERR-9999"),
     // SOLD_OUT
-    SOLD_OUT("ERR-0001");
+    SOLD_OUT("ERR-0001"),
+    // INVESTOR_NOT_FOUND
+    INVESTOR_NOT_FOUND("ERR-0002"),
+    // BAD_CREDENTIALS
+    BAD_CREDENTIALS("ERR-0003");
 
   private String errorCode;
 

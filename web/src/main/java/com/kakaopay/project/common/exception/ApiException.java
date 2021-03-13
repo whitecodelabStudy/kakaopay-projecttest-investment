@@ -1,4 +1,4 @@
-package com.kakaopay.project.api.exception;
+package com.kakaopay.project.common.exception;
 
 
 import com.kakaopay.project.common.code.ApiCode;

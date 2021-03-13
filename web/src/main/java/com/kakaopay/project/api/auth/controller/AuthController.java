@@ -1,55 +1,59 @@
 package com.kakaopay.project.api.auth.controller;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kakaopay.project.api.auth.dto.AuthDto;
-import com.kakaopay.project.api.auth.service.AuthService;
+import com.kakaopay.project.api.auth.dto.AuthInvestorDto;
+import com.kakaopay.project.api.auth.service.CustomUserDetailService;
+import com.kakaopay.project.api.auth.service.JwtUtil;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
-import com.wepicksoft.webads.common.apiformat.ApiRequestJson;
-import com.wepicksoft.webads.core.util.StringUtil;
+import com.kakaopay.project.common.exception.ApiException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
-@RequestMapping("/api/auth")
 public class AuthController {
 
-  // RESPONSE KEY
-  private static final String RESPONSE_MAP_KEY_DATA = "data";
-  private static final String RESPONSE_MAP_KEY_ID = "id";
-  private static final String RESPONSE_MAP_KEY_PASSWORD = "password";
-  private static final String RESPONSE_MAP_KEY_EMAIL = "email";
+  private final AuthenticationManager authenticationManager;
+
+  private final CustomUserDetailService customUserDetailService;
+
+  private final JwtUtil jwtUtil;
 
   @Autowired
-  private AuthService authService;
-
-  /**
-   * authenticate
-   *
-   * @param authDto
-   * @return ResponseEntity
-   */
-  @PostMapping("/authenticate")
-  public ResponseEntity<ApiResponseJson> authenticate(@RequestBody AuthDto authDto) {
-    return Collections.singletonList(Collections.singletonMap(RESPONSE_MAP_KEY_DATA,
-        authService.makeJwt(apiRequestJson.getRequest().get(RESPONSE_MAP_KEY_ID).toString(),
-            apiRequestJson.getRequest().get(RESPONSE_MAP_KEY_PASSWORD).toString(),
-            apiRequestJson.getRequest().get(RESPONSE_MAP_KEY_EMAIL).toString())));
+  public AuthController(AuthenticationManager authenticationManager, CustomUserDetailService customUserDetailService,
+      JwtUtil jwtUtil) {
+    this.authenticationManager = authenticationManager;
+    this.customUserDetailService = customUserDetailService;
+    this.jwtUtil = jwtUtil;
   }
 
-  @PostMapping("/checkToken")
-  public ResponseEntity<ApiResponseJson> authToken(@RequestBody ApiRequestJson apiRequestJson) throws Exception {
-    String token = apiRequestJson.getAuth().getToken();
-    if (StringUtil.isEmpty(token)) {
-      return false;
-    } else {
-      return authService.checkJwt(token);
+  @PostMapping(value = "/authenticate")
+  public ResponseEntity<ApiResponseJson> generateToken(@RequestBody AuthInvestorDto authInvestorDto) {
+    try {
+      log.debug(authInvestorDto.toString());
+      this.authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(authInvestorDto.getInvestId(), authInvestorDto.getPassword()));
+      UserDetails userDetails = this.customUserDetailService.loadUserByUsername(authInvestorDto.getInvestId());
+      String token = this.jwtUtil.generateToken(userDetails);
+      log.debug(token);
+      return ResponseEntity.ok(new ApiResponseJson.Builder(token).build());
+    } catch (UsernameNotFoundException e) {
+      log.error("Investor not found!!", e);
+      throw new ApiException();
+    } catch (BadCredentialsException be) {
+      log.error("", be);
+      throw new ApiException();
     }
-  }
 
+  }
 }
