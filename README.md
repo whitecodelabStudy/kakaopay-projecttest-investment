@@ -256,3 +256,8 @@ postgres                     latest    1f0815c1cb6e   3 weeks ago    314MB
 ![테이블 ERD](https://github.com/kakaopaycoding-server/202103-namhanjunsul-naver.com/blob/main/web/src/main/resources/erd.PNG)
 
 [테이블 상세 내역서](https://github.com/kakaopaycoding-server/202103-namhanjunsul-naver.com/blob/main/web/src/main/resources/schema.sql)
+
+## Web Application Service 빌드 및 실행.
+> 빌드 : gradle clean build
+
+> 실행 : gradle clean build

@@ -2,7 +2,8 @@ package com.kakaopay.project.api.investment.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.kakaopay.project.api.investment.dto.MyInvestProductDto;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
@@ -14,9 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kakaopay.project.api.BaseControllerTest;
 import com.kakaopay.project.api.investment.dto.InvestProductDto;
 import com.kakaopay.project.api.investment.dto.InvestStatusDto;
+import com.kakaopay.project.api.investment.dto.MyInvestProductDto;
 import com.kakaopay.project.web.WebApplication;
-
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WebApplication.class)
@@ -34,20 +34,20 @@ class InvestServiceTest extends BaseControllerTest {
   @Test
   void insertProductInvest() {
     // 정상투자
-    InvestProductDto investProductDto = new InvestProductDto(6l, 5555l);
+    InvestProductDto investProductDto = new InvestProductDto(1l, 5555l);
     investProductDto.setMemberId(20191218l);
     InvestStatusDto investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat(investStatusDto.getInvestStatus()).isEqualTo("SUCCESS");
 
     // sold out
-    investProductDto = new InvestProductDto(104l, 1111111111111l);
+    investProductDto = new InvestProductDto(1l, 1111111111111l);
     investProductDto.setMemberId(20191218l);
     investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat("FAIL").isEqualTo(investStatusDto.getInvestStatus());
     assertThat("SOLD_OUT").isEqualTo(investStatusDto.getFailReason());
 
     // 투자 기간 끝남.
-    investProductDto = new InvestProductDto(117l, 1l);
+    investProductDto = new InvestProductDto(2l, 1l);
     investProductDto.setMemberId(20191218l);
     investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat("FAIL").isEqualTo(investStatusDto.getInvestStatus());
@@ -57,7 +57,6 @@ class InvestServiceTest extends BaseControllerTest {
   @Test
   void getMyInvestProducts() {
     List<MyInvestProductDto> myInvestProductList = investService.getMyInvestProducts(19840130);
-    assertThat(myInvestProductList.size()).isEqualTo(2);
     for (MyInvestProductDto myInvestProduct : myInvestProductList) {
       assertThat(myInvestProduct.getProductId()).isEqualTo(1);
     }

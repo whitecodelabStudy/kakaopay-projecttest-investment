@@ -42,18 +42,19 @@ class InvestControllerTest extends BaseControllerTest {
   @Test
   void investProduct() throws Exception {
     // 정상투자
-    InvestProductDto investProductDto = new InvestProductDto(6l, 5555l);
+    InvestProductDto investProductDto = new InvestProductDto(1l, 5555l);
     investProductDto.setMemberId(20191218l);
     MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.get("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
-            .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
+            .contentType(
+                MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
     assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
 
     // sold out
-    investProductDto = new InvestProductDto(104l, 1111111111111l);
+    investProductDto = new InvestProductDto(1l, 1111111111111l);
     investProductDto.setMemberId(20191218l);
     mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.get("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
@@ -64,7 +65,7 @@ class InvestControllerTest extends BaseControllerTest {
     assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
 
     // 투자 기간 끝남.
-    investProductDto = new InvestProductDto(117l, 1l);
+    investProductDto = new InvestProductDto(2l, 1l);
     investProductDto.setMemberId(20191218l);
     mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.get("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
