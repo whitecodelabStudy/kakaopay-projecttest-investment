@@ -1,5 +1,7 @@
 package com.kakaopay.project.api.member.controller;
 
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,14 +10,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.kakaopay.project.api.BaseControllerTest;
+import com.kakaopay.project.api.member.dto.AddMemberDto;
+import com.kakaopay.project.api.member.dto.UpdateMemberDto;
 import com.kakaopay.project.api.util.TestUtil;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
 import com.kakaopay.project.common.code.ApiCode;
@@ -26,20 +30,17 @@ import com.kakaopay.project.web.WebApplication;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WebApplication.class)
 class MemberControllerTest extends BaseControllerTest {
 
-  public MemberControllerTest(MockMvc mockMvc) {
-    super(mockMvc);
-  }
+  private boolean isMakeHeader = true;
 
   @BeforeEach
   public void setup() throws Exception {
-    if (headers != null) {
+    if (headers != null && !isMakeHeader) {
       return;
     } else {
       // access token 발급.
       makeHeader();
     }
   }
-
 
   @Test
   void getMember() throws Exception {
@@ -49,32 +50,45 @@ class MemberControllerTest extends BaseControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS);
+    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
     Assert.assertEquals(apiResponseJson.getResponse().size(), 1);
   }
 
   @Test
   @Transactional
   void modifyMember() throws Exception {
+
+    UpdateMemberDto updateMemberDto = new UpdateMemberDto();
+    updateMemberDto.setMemberId(Long.valueOf(777));
+    updateMemberDto.setName("마마");
+    updateMemberDto.setPassword("1223333333");
+
     MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.put("/api/member").accept(MediaType.APPLICATION_JSON).headers(headers)
-            .contentType(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(updateMemberDto)))
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS);
   }
 
   @Test
   @Transactional
   void signup() throws Exception {
+    isMakeHeader = false;
+    // 사용자 추가.
+    AddMemberDto addMemberDto = new AddMemberDto();
+    addMemberDto.setMemberId(Long.valueOf(new Random().nextInt(99999)));
+    addMemberDto.setPassword("123qwe");
+    addMemberDto.setName("sssue");
+    addMemberDto.setMemberType("ADMIN");
+    // 확인
     MvcResult mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.post("/api/member/signup").accept(MediaType.APPLICATION_JSON).headers(headers)
-            .contentType(MediaType.APPLICATION_JSON))
+        .perform(MockMvcRequestBuilders.post("/api/member/signup").accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(addMemberDto)))
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS);
+    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
   }
 
 }

@@ -6,7 +6,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -21,10 +20,10 @@ import com.kakaopay.project.web.WebApplication;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WebApplication.class)
 public class AuthControllerTest extends BaseControllerTest {
 
-  public AuthControllerTest(MockMvc mockMvc) {
-    super(mockMvc);
-  }
-
+  /**
+   * 토큰 발급 테스트 정상처리
+   * @throws Exception
+   */
   @Test
   public void generateToken() throws Exception {
     AuthMemberDto authMemberDto = new AuthMemberDto();
@@ -35,6 +34,10 @@ public class AuthControllerTest extends BaseControllerTest {
     issueAccessToken(authMemberDto);
   }
 
+  /**
+   * 토큰 발급 테스트 인증실패
+   * @throws Exception
+   */
   @Test
   public void generateTokenBadCredentials() throws Exception {
     AuthMemberDto authMemberDto = new AuthMemberDto();
@@ -49,6 +52,10 @@ public class AuthControllerTest extends BaseControllerTest {
         .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andDo(MockMvcResultHandlers.print());
   }
 
+  /**
+   * 토큰 발급 테스트 사용자 찾지 못함
+   * @throws Exception
+   */
   @Test
   public void generateTokenMemberNotFound() throws Exception {
     AuthMemberDto authMemberDto = new AuthMemberDto();

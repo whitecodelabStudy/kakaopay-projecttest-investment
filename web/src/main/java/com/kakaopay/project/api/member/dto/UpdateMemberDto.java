@@ -10,7 +10,7 @@ public class UpdateMemberDto {
   /**
    * memberId
    */
-  private String memberId;
+  private Long memberId;
   /**
    * name
    */

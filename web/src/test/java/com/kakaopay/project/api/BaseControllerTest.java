@@ -29,13 +29,9 @@ public class BaseControllerTest {
   private static final String AUTH_HEADER = "Authorization";
   private static final String TOKEN_TYPE = "Bearer ";
 
+  @Autowired
   protected MockMvc mockMvc;
   protected HttpHeaders headers = null;
-
-  @Autowired
-  public BaseControllerTest(MockMvc mockMvc) {
-    this.mockMvc = mockMvc;
-  }
 
   protected void makeHeader() throws Exception {
     // 테스트 계정 설정.
@@ -49,6 +45,9 @@ public class BaseControllerTest {
   }
 
   protected String issueAccessToken(AuthMemberDto authMemberDto) throws Exception {
+    if (this.headers == null) {
+      this.headers = setMemberIdHeader(String.valueOf(authMemberDto.getMemberId()));
+    }
     // token 발급
     MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.post("/auth/authenticate").accept(MediaType.APPLICATION_JSON)

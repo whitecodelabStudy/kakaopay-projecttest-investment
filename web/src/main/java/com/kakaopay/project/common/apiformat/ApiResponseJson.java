@@ -16,7 +16,8 @@ public class ApiResponseJson {
   private List<Object> response;
 
   public ApiResponseJson() {
-    // do nothing
+    this.resultCode = ApiCode.SUCCESS.getCode();
+    this.response = Collections.emptyList();
   }
 
   /**
