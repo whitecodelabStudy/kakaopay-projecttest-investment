@@ -75,18 +75,18 @@ Response 예시
  
 > 투자하기
 - 사용자식별값,상품ID,투자금액을입력값으로받습니다.
-- 총투자모집금액(total_investing_amount)을넘어서면sold-out상태를응답합니다
+- 총투자모집금액(total_investing_amount)을 넘어서면 sold-out 상태를 응답합니다
 
 
-### * 하나의 투자 상품에 여러명의 투자자가 몰리게 되고 투자 금액이 다모이게 되면 sold-out을 보여 주어야 함.
-### 조회 하고 넣고 하다보면 투자 금액이 상이해 지는 효과가 나타날 수 있고 synchronized나 DB lock 을 걸면 성능 이슈가 있어 아래방법으로 진행. 
+### * 하나의 투자 상품에 여러명의 투자자가 몰리게 되고 투자 금액이 다모이게 되면 sold-out 을 보여 주어야 함.
+### 조회 하고 넣고 하다보면 투자 금액이 상이해 지는 효과가 나타날 수 있고 synchronized 나 DB lock 을 걸면 성능 이슈가 있어 아래방법으로 진행. 
 ### 1. 투자 정보를 테이블(tb_product_invest)에 insert, 당시 투자 상태는 READY.
-### 2. 등록된 투자 정보를 바탕으로 투자금액이 다모였는지 확인(상태가 SUCCESS인 것 중 투자금액에 대한 충족 여부 확인.)
-### 3. 투자가 가능하다면 SUCCESS로 변경. 투자가 불가능 하다면 사유를 남기고 상태를 FAILED로 변경.
+### 2. 등록된 투자 정보를 바탕으로 투자금액이 다모였는지 확인(상태가 SUCCESS 인 것 중 투자금액에 대한 충족 여부 확인.)
+### 3. 투자가 가능하다면 SUCCESS 로 변경. 투자가 불가능 하다면 사유를 남기고 상태를 FAILED 로 변경.
 ```
 POST /api/invest
 ```
-> Requst
+> Request
  
 ```
 {
@@ -123,7 +123,7 @@ POST /api/invest
 }
 ```
 ```
-투자가 진행 중이나 토자모금액이 내가 투자할 금액과 더해서 초과 되었을 때.
+투자가 진행 중이나 투자모금액과 투자자의 투자금액의 합이 최대 투자금액을 초과 했을 때.
 {
     "resultCode": "SUC-0000",
     "response": [
@@ -134,7 +134,7 @@ POST /api/invest
     ]
 }
 ```
-> 나의 투자상품 조회 API구현
+> 나의 투자상품 조회 API 구현
 - 내가투자한모든상품을반환합니다.
 - 나의투자상품응답은다음내용을포함합니다.
 - 상품ID,상품제목,총모집금액,나의투자금액,투자일시
@@ -161,7 +161,7 @@ Response 예시
 }
 ```
 ## 추가 구현
-> jwt 인증 구현 : 발급 후 헤더의 Authorization의 Bearer 에 선언 후 다른 기능 이용 가능.
+> jwt 인증 구현 : 발급 후 헤더의 Authorization 의 Bearer 에 선언 후 다른 기능 이용 가능.
 ````
 POST http://localhost:8080/auth/authenticate
 ````
@@ -217,9 +217,9 @@ Response 예시
 
 ---
 ## Java package 구조
-- web package : springboot에서 web관련 패키지
-- common : 공통 패키지(json fomat, exception, util 등)
-- api 실제 request를 받아 처리하는 패키지 크게 4개의 api package 구성
+- web package : springboot 에서 web 관련 패키지
+- common : 공통 패키지(json format, exception, util 등)
+- api 실제 request 를 받아 처리하는 패키지 크게 4개의 api package 구성
   > auth : 인증관련 (토큰 발급 및 토큰 체크)
   >  
   > member : 회원 관리 패키지
@@ -241,7 +241,7 @@ Response 예시
 
 REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
 
-postgres                     latest    1f0815c1cb6e   3 weeks ago    314MB
+postgres                     latest    1f0815c1cb6e   3 weeks ago    314 MB
 
 ## 3. postgres 컨테이너 실행 및 세팅.
 > docker run -p 12505:5432 -d --name kakaopay-postgres -e POSTGRES_PASSWORD=1q2w3e4r -e POSTGRES_USER=kakaopay -e POSTGRES_INITDB_WALDIR=/var/lib/postgresql/log -e PGDATA=/var/lib/postgresql/data/pgdata -v <postgres 데이터 폴더 입력>:/var/lib/postgresql/data -v <postgres 로그 폴더 입력>:/var/lib/postgresql/log postgres:12.6
@@ -260,7 +260,7 @@ postgres                     latest    1f0815c1cb6e   3 weeks ago    314MB
 ## Web Application Service 빌드 및 실행.
 > 빌드 : gradle clean build
 
-> 실행 :
+> 실행
 > cd web\build\libs
 > 
 > java -jar web-0.0.1-SNAPSHOT.war
