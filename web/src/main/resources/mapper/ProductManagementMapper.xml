@@ -82,7 +82,7 @@
                 FROM tb_product tp
                 LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id AND tpi.invest_status = 'SUCCESS'
                 LEFT OUTER JOIN tb_member ti ON ti.member_id = tpi.member_id
-                WHERE tp.member_id = #{memberId}
+                WHERE tp.member_id = #{memberId}::bigint
                 group by
                     tp.product_id
                     , tp.title
@@ -130,7 +130,7 @@
         FROM tb_product tp
         LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id AND tpi.invest_status = 'SUCCESS'
         LEFT OUTER JOIN tb_member ti ON ti.member_id = tpi.member_id
-        WHERE tp.product_id = #{productId}
+        WHERE tp.product_id = #{productId}::bigint
         group by
             tp.product_id
             , tp.title
@@ -145,25 +145,25 @@
         ]]>
     </select>
 
-    <delete id="deleteProduct" parameterType="com.kakaopay.project.api.productmanagement.dto.ProductDto">
-        DELETE FROM tb_product WHERE product_id = #{productId} and started_at > now()
+    <delete id="deleteProduct" parameterType="long">
+        DELETE FROM tb_product WHERE product_id = #{productId}::bigint and started_at > now()
     </delete>
 
     <update id="updateProduct" parameterType="com.kakaopay.project.api.productmanagement.dto.ProductDto">
         UPDATE tb_product
         SET title = #{title}
-        , total_investing_amount = #{totalInvestingAmount}
-        , started_at = #{startedAt}
-        , finished_at = #{finishedAt}
+        , total_investing_amount = #{totalInvestingAmount}::bigint
+        , started_at = #{startedAt}::timestamp
+        , finished_at = #{finishedAt}::timestamp
         , modified_time = now()
-        WHERE product_id = #{productId} and started_at > now()
+        WHERE product_id = #{productId}::bigint and started_at > now()
     </update>
 
     <insert id="insertProduct" parameterType="com.kakaopay.project.api.productmanagement.dto.ProductDto">
         INSERT INTO tb_product
             (title, product_type, total_investing_amount, started_at, finished_at, created_time, modified_time, member_id)
         VALUES
-            (#{title}, #{productType}, #{totalInvestingAmount}, #{startedAt}, #{finishedAt}, now(), now(), #{memberId})
+            (#{title}, #{productType}::en_product_type, #{totalInvestingAmount}::bigint, #{startedAt}::timestamp, #{finishedAt}::timestamp, now(), now(), #{memberId}::bigint)
     </insert>
 
     <select id="selectProductCount" resultType="int">
