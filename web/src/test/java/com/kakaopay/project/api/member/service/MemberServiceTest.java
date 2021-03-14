@@ -31,13 +31,13 @@ class MemberServiceTest {
 
   @Test
   void getMember() {
-    Long memberId = 777l;
+    Long memberId = 20191218l;
     // 회원 찾기 성공일때.
-    MemberDetailDto memberDetailDto = memberService.getMember(777l);
+    MemberDetailDto memberDetailDto = memberService.getMember(memberId);
     Assert.assertEquals(memberDetailDto.getMemberId(), memberId);
 
     // 오류 테스트 (조회된 회원이 없을때)
-    Assert.assertThrows(ApiException.class, () -> memberService.getMember(777111111l));
+    Assert.assertThrows(ApiException.class, () -> memberService.getMember(123123));
   }
 
   @Test

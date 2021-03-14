@@ -32,22 +32,23 @@ class InvestServiceTest extends BaseControllerTest {
   }
 
   @Test
+  @Transactional
   void insertProductInvest() {
     // 정상투자
-    InvestProductDto investProductDto = new InvestProductDto(1l, 5555l);
+    InvestProductDto investProductDto = new InvestProductDto(3L, 5555l);
     investProductDto.setMemberId(20191218l);
     InvestStatusDto investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat(investStatusDto.getInvestStatus()).isEqualTo("SUCCESS");
 
     // sold out
-    investProductDto = new InvestProductDto(1l, 1111111111111l);
+    investProductDto = new InvestProductDto(2l, 1111111111111l);
     investProductDto.setMemberId(20191218l);
     investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat("FAIL").isEqualTo(investStatusDto.getInvestStatus());
     assertThat("SOLD_OUT").isEqualTo(investStatusDto.getFailReason());
 
     // 투자 기간 끝남.
-    investProductDto = new InvestProductDto(2l, 1l);
+    investProductDto = new InvestProductDto(1l, 1l);
     investProductDto.setMemberId(20191218l);
     investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat("FAIL").isEqualTo(investStatusDto.getInvestStatus());

@@ -260,4 +260,6 @@ postgres                     latest    1f0815c1cb6e   3 weeks ago    314MB
 ## Web Application Service 빌드 및 실행.
 > 빌드 : gradle clean build
 
-> 실행 : gradle clean build
+> 실행 :
+> cd web\build\libs
+> java -jar web-0.0.1-SNAPSHOT.war

@@ -45,10 +45,9 @@ class InvestControllerTest extends BaseControllerTest {
     InvestProductDto investProductDto = new InvestProductDto(1l, 5555l);
     investProductDto.setMemberId(20191218l);
     MvcResult mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.get("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
-            .contentType(
-                MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
-        .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
+            .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
+        .andDo(MockMvcResultHandlers.print()).andReturn();
 
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
     assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
@@ -57,9 +56,9 @@ class InvestControllerTest extends BaseControllerTest {
     investProductDto = new InvestProductDto(1l, 1111111111111l);
     investProductDto.setMemberId(20191218l);
     mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.get("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
+        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
-        .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+        .andDo(MockMvcResultHandlers.print()).andReturn();
 
     apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
     assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
@@ -68,9 +67,9 @@ class InvestControllerTest extends BaseControllerTest {
     investProductDto = new InvestProductDto(2l, 1l);
     investProductDto.setMemberId(20191218l);
     mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.get("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
+        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
-        .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+        .andDo(MockMvcResultHandlers.print()).andReturn();
 
     apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
     assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
