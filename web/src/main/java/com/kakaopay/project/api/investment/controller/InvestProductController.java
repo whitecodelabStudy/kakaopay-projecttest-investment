@@ -38,4 +38,5 @@ public class InvestProductController {
     return ResponseEntity.ok(new ApiResponseJson.Builder(productManagementService.getProductById(productId)).build());
   }
 
+
 }

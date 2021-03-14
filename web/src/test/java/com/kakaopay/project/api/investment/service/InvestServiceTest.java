@@ -2,6 +2,7 @@ package com.kakaopay.project.api.investment.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.kakaopay.project.api.investment.dto.MyInvestProductDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
@@ -14,6 +15,8 @@ import com.kakaopay.project.api.BaseControllerTest;
 import com.kakaopay.project.api.investment.dto.InvestProductDto;
 import com.kakaopay.project.api.investment.dto.InvestStatusDto;
 import com.kakaopay.project.web.WebApplication;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WebApplication.class)
@@ -51,6 +54,15 @@ class InvestServiceTest extends BaseControllerTest {
     assertThat("FINISHED").isEqualTo(investStatusDto.getFailReason());
   }
 
+  @Test
+  void getMyInvestProducts() {
+    List<MyInvestProductDto> myInvestProductList = investService.getMyInvestProducts(19840130);
+    assertThat(myInvestProductList.size()).isEqualTo(2);
+    for (MyInvestProductDto myInvestProduct : myInvestProductList) {
+      assertThat(myInvestProduct.getProductId()).isEqualTo(1);
+    }
+  }
+
   // @Test
   void deleteProductInvest() {
     // 투자 취소. 모집이 끝나지 않은 상태에만 가능.
@@ -64,5 +76,6 @@ class InvestServiceTest extends BaseControllerTest {
     investService.deleteProductInvest(6);
     assertThat(result).isEqualTo(0);
   }
+
 
 }

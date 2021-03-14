@@ -2,7 +2,9 @@ package com.kakaopay.project.api.investment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kakaopay.project.api.investment.dto.InvestProductDto;
 import com.kakaopay.project.api.investment.service.InvestService;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api/invest")
@@ -37,5 +41,11 @@ public class InvestController {
     return ResponseEntity.ok(new ApiResponseJson.Builder(investService.deleteProductInvest(investId)).build());
   }
 
+  @GetMapping("/account")
+  @ApiOperation(value = "나의 투자상품 조회 API", notes = "나의 투자상품 조회")
+  @PreAuthorize("hasRole('INVESTOR')")
+  public ResponseEntity<ApiResponseJson> getMyInvestProducts(@RequestHeader(value = "X-USER-ID") long memberId) {
+    return ResponseEntity.ok(new ApiResponseJson.Builder(investService.getMyInvestProducts(memberId)).build());
+  }
 
 }

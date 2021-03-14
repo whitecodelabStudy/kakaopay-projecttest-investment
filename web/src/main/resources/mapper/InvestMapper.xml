@@ -22,4 +22,27 @@
                         LIMIT 1
         )
     </delete>
+
+    <select id="selectMyInvestProducts" parameterType="long" resultType="com.kakaopay.project.api.investment.dto.MyInvestProductDto">
+        SELECT
+          tp.product_id
+          , tp.title
+          , tp.total_investing_amount
+          , sum(tpi.invested_amount) AS my_invested_amount
+          , tpi.modified_time
+          , tptp.total_invested_amount
+        FROM tb_product tp
+        LEFT OUTER JOIN tb_product_invest tpi ON tpi.product_id = tp.product_id and tpi.invest_status = 'SUCCESS'
+        LEFT OUTER JOIN (SELECT tttp.product_id, sum(tttp.invested_amount) as total_invested_amount
+                          FROM tb_product_invest tttp
+                          WHERE tttp.invest_status = 'SUCCESS'
+                          GROUP BY tttp.product_id
+                        ) AS tptp on tptp.product_id = tp.product_id
+        WHERE tpi.member_id = #{memberId}::bigint
+        GROUP BY tp.product_id
+        , tp.title
+        , tp.total_investing_amount
+        , tpi.modified_time
+        , tptp.total_invested_amount
+    </select>
 </mapper>

@@ -6,7 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kakaopay.project.api.investment.dto.InvestProductDto;
 import com.kakaopay.project.api.investment.dto.InvestStatusDto;
+import com.kakaopay.project.api.investment.dto.MyInvestProductDto;
 import com.kakaopay.project.api.investment.mapper.InvestMapper;
+
+import java.util.List;
 
 @Service
 public class InvestService {
@@ -26,6 +29,11 @@ public class InvestService {
   @Transactional
   public int deleteProductInvest(long investId) {
     return investMapper.deleteProductInvest(investId);
+  }
+
+  @Transactional
+  public List<MyInvestProductDto> getMyInvestProducts(long memberId) {
+    return investMapper.selectMyInvestProducts(memberId);
   }
 
 }

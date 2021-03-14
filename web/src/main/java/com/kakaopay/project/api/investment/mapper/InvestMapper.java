@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 
 import com.kakaopay.project.api.investment.dto.InvestProductDto;
 import com.kakaopay.project.api.investment.dto.InvestStatusDto;
+import com.kakaopay.project.api.investment.dto.MyInvestProductDto;
+
+import java.util.List;
 
 @Mapper
 @Component
@@ -14,4 +17,5 @@ public interface InvestMapper {
 
   int deleteProductInvest(Long investId);
 
+  List<MyInvestProductDto> selectMyInvestProducts(long memberId);
 }
