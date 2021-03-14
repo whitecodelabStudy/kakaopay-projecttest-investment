@@ -228,6 +228,7 @@ Response 예시
   >
   > investment : 투자 관련 기능이 모여있는 패키지
 
+이외 pmd, checkstyle 적용하여 최소한의 코딩컨벤션 유지.
 
 -------
 ## 실행 ##
