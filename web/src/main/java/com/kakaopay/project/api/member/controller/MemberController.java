@@ -1,5 +1,6 @@
 package com.kakaopay.project.api.member.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,17 +28,20 @@ public class MemberController {
   }
 
   @GetMapping
+  @ApiOperation(value = "회원 조회", notes = "회원 조회 API.")
   public ResponseEntity<ApiResponseJson> getMember(@RequestHeader(value = "X-USER-ID") long memberId) {
     return ResponseEntity.ok(new ApiResponseJson.Builder(memberService.getMember(memberId)).build());
   }
 
   @PutMapping
+  @ApiOperation(value = "회원 수정", notes = "회원 수정 API.")
   public ResponseEntity<ApiResponseJson> modifyMember(@RequestBody UpdateMemberDto updateMemberDto) {
     memberService.modifyMember(updateMemberDto);
     return ResponseEntity.ok(new ApiResponseJson());
   }
 
   @PostMapping("/signup")
+  @ApiOperation(value = "회원 추가", notes = "회원 추가 API.")
   public ResponseEntity<ApiResponseJson> signup(@RequestBody AddMemberDto addMemberDto) {
     memberService.addMember(addMemberDto);
     return ResponseEntity.ok(new ApiResponseJson());

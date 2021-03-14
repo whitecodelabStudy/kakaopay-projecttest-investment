@@ -1,10 +1,14 @@
 package com.kakaopay.project.api.member.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,26 +56,22 @@ class MemberServiceTest {
 
   @Test
   @Transactional
+  @Rollback(false)
   void modifyMember() {
-    AddMemberDto addMemberDto = new AddMemberDto();
-    addMemberDto.setMemberId(779797979l);
-    addMemberDto.setName("name TETET");
-    addMemberDto.setMemberType("INVESTOR");
-    addMemberDto.setPassword("779797979l");
-    // 회원 생성
-    memberService.addMember(addMemberDto);
 
-    UpdateMemberDto updateMemberDto = new UpdateMemberDto();
-    updateMemberDto.setMemberId(779797979l);
-    updateMemberDto.setName("TXWX");
-    updateMemberDto.setPassword("0p0p0p0p0");
-    // 회원 수정
-    memberService.modifyMember(updateMemberDto);
-    // 회원 조회 뒤 비교
-    MemberDetailDto memberDetailDto = memberService.getMember(addMemberDto.getMemberId());
-    Assert.assertEquals(memberDetailDto.getMemberId(), updateMemberDto.getMemberId());
-    Assert.assertEquals(memberDetailDto.getName(), updateMemberDto.getName());
-    Assert.assertNotEquals(memberDetailDto.getName(), addMemberDto.getName());
+    List<UpdateMemberDto> list = Arrays.asList(new UpdateMemberDto(20171036l, "상품관리자", "1q2w3e4r"),
+        new UpdateMemberDto(20191218l, "승후", "1q2w3e4r"), new UpdateMemberDto(10111218l, "sangsub.lee", "1q2w3e4r"),
+        new UpdateMemberDto(76664l, "mirae", "1q2w3e4r"), new UpdateMemberDto(97553l, "호비", "1q2w3e4r"),
+        new UpdateMemberDto(3325812l, "베니", "1q2w3e4r"));
+
+    for (UpdateMemberDto updateMemberDto : list) {
+      // 회원 수정
+      memberService.modifyMember(updateMemberDto);
+      // 회원 조회 뒤 비교
+      MemberDetailDto memberDetailDto = memberService.getMember(updateMemberDto.getMemberId());
+      Assert.assertEquals(memberDetailDto.getMemberId(), updateMemberDto.getMemberId());
+      Assert.assertEquals(memberDetailDto.getName(), updateMemberDto.getName());
+    }
   }
 
 }

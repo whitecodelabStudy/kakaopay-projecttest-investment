@@ -44,6 +44,8 @@ class MemberControllerTest extends BaseControllerTest {
 
   @Test
   void getMember() throws Exception {
+
+    makeHeader();
     MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.get("/api/member").accept(MediaType.APPLICATION_JSON).headers(headers)
             .contentType(MediaType.APPLICATION_JSON))
@@ -57,18 +59,13 @@ class MemberControllerTest extends BaseControllerTest {
   @Test
   @Transactional
   void modifyMember() throws Exception {
-
-    UpdateMemberDto updateMemberDto = new UpdateMemberDto();
-    updateMemberDto.setMemberId(Long.valueOf(777));
-    updateMemberDto.setName("마마");
-    updateMemberDto.setPassword("1223333333");
-
+    UpdateMemberDto updateMemberDto = new UpdateMemberDto(Long.valueOf(20171036l), "테스트관리자", "1q2w3e4r");
     MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.put("/api/member").accept(MediaType.APPLICATION_JSON).headers(headers)
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(updateMemberDto)))
-        .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
-
+        .andDo(MockMvcResultHandlers.print()).andReturn();
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
+    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
   }
 
   @Test

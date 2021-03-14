@@ -209,3 +209,33 @@ BEGIN
 END;
 $$;
 
+--
+-- 테스트 데이터 입력.
+--
+-- 관리자 테스트 데이터 (비밀번호가 암호화가 안되어 수정테스트 이후 가능)
+INSERT INTO public.tb_member (member_id, "password", "name", member_type, created_time, modified_time)
+VALUES(20171036, '1q2w3e4r','상품관리자', 'ADMIN', now(), now());
+INSERT INTO public.tb_member (member_id, "password","name", member_type, created_time, modified_time)
+VALUES(20191218, '1q2w3e4r','승후', 'INVESTOR', now(), now());
+INSERT INTO public.tb_member (member_id, "password","name", member_type, created_time, modified_time)
+VALUES(10111218, '1q2w3e4r','sangsub.lee', 'INVESTOR', now(), now());
+INSERT INTO public.tb_member (member_id, "password","name", member_type, created_time, modified_time)
+VALUES(76664, '1q2w3e4r','mirae', 'INVESTOR', now(), now());
+INSERT INTO public.tb_member (member_id, "password","name", member_type, created_time, modified_time)
+VALUES(97553, '1q2w3e4r','호비', 'INVESTOR', now(), now());
+INSERT INTO public.tb_member (member_id, "password","name", member_type, created_time, modified_time)
+VALUES(3325812, '1q2w3e4r','베니', 'INVESTOR', now(), now());
+
+-- 상품 테스트 데이터 (만료된것, 진행중, 진행중(sold_out), 시작전
+INSERT INTO tb_product (title, "product_type", total_investing_amount, started_at, finished_at, created_time, modified_time, member_id)
+VALUES('부동산 포트폴리오', 'REAL_ESTATE', 350000000, '2021-03-01', '2021-03-10', NOW(), NOW(), 20171036);
+INSERT INTO tb_product (title, "product_type", total_investing_amount, started_at, finished_at, created_time, modified_time, member_id)
+VALUES('개인신용 포트폴리오', 'CREDIT', 10000000, '2021-03-01', '2022-03-20', NOW(), NOW(), 20171036);
+INSERT INTO tb_product (title, "product_type", total_investing_amount, started_at, finished_at, created_time, modified_time, member_id)
+VALUES('헤외주식', 'CREDIT', 10000, '2021-03-01', '2021-03-20', NOW(), NOW(), 20171036);
+INSERT INTO tb_product (title, "product_type", total_investing_amount, started_at, finished_at, created_time, modified_time, member_id)
+VALUES('국내주식', 'CREDIT', 10000, '2021-03-01', '2021-04-10', NOW(), NOW(), 20171036);
+INSERT INTO tb_product (title, "product_type", total_investing_amount, started_at, finished_at, created_time, modified_time, member_id)
+VALUES('3기신도시 투기지역', 'REAL_ESTATE', 1000000, '2021-04-01', '2021-05-10', NOW(), NOW(), 20171036);
+
+-- 투자 정보

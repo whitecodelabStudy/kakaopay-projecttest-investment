@@ -64,7 +64,7 @@ public class BaseControllerTest {
     AuthMemberDto authMemberDto = new AuthMemberDto();
     authMemberDto.setMemberId(20191218);
     authMemberDto.setMemberType("INVESTOR");
-    authMemberDto.setPassword("1q2w3e4r!@");
+    authMemberDto.setPassword("1q2w3e4r");
     return authMemberDto;
   }
 
