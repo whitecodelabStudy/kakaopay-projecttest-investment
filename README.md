@@ -16,7 +16,7 @@
 - 상품모집기간(started_at,finished_at)내의상품만응답합니다.
 - 전체투자상품응답은다음내용을포함합니다.
 - 상품ID,상품제목,총모집금액,현재모집금액,투자자수,투자모집상태(모집중,모집완료), 상품 모집기간.
-
+ 
 ```
 GET /api/invest/product
 ```
@@ -76,6 +76,13 @@ Response 예시
 > 투자하기
 - 사용자식별값,상품ID,투자금액을입력값으로받습니다.
 - 총투자모집금액(total_investing_amount)을넘어서면sold-out상태를응답합니다
+
+
+### * 하나의 투자 상품에 여러명의 투자자가 몰리게 되고 투자 금액이 다모이게 되면 sold-out을 보여 주어야 함.
+### 조회 하고 넣고 하다보면 투자 금액이 상이해 지는 효과가 나타날 수 있고 synchronized나 DB lock 을 걸면 성능 이슈가 있어 아래방법으로 진행. 
+### 1. 투자 정보를 테이블(tb_product_invest)에 insert, 당시 투자 상태는 READY.
+### 2. 등록된 투자 정보를 바탕으로 투자금액이 다모였는지 확인(상태가 SUCCESS인 것 중 투자금액에 대한 충족 여부 확인.)
+### 3. 투자가 가능하다면 SUCCESS로 변경. 투자가 불가능 하다면 사유를 남기고 상태를 FAILED로 변경.
 ```
 POST /api/invest
 ```
@@ -83,9 +90,9 @@ POST /api/invest
  
 ```
 {
-  "investedAmount": 30000,
-  "memberId": 20191218,
-  "productId": 1
+  "investedAmount": <투자금액>,
+  "memberId": <회원아이디>,
+  "productId": <상품아이디>
 }
 ```
 > Response 예시
@@ -96,7 +103,7 @@ POST /api/invest
     "response": [
         {
             "investStatus": "SUCCESS",
-            "failReason": null
+            "failReason": ""
         }
     ]
 }
@@ -133,7 +140,7 @@ POST /api/invest
 - 상품ID,상품제목,총모집금액,나의투자금액,투자일시
 
 ```
-GET /api/invest/product
+GET /api/invest/product , Header X-USER-ID <memberId>
 ```
 ```
 Response 예시
@@ -153,6 +160,44 @@ Response 예시
     ]
 }
 ```
+## 추가 구현
+> jwt 인증 구현 : 발급 후 헤더의 Authorization의 Bearer 에 선언 후 다른 기능 이용 가능.
+````
+POST http://localhost:8080/auth/authenticate
+````
+```
+{
+	"memberId" : "<memberID>",
+	"password" : "<password>"
+
+}
+```
+
+```
+Response 예시
+```
+```
+{
+    "resultCode": "SUC-0000",
+    "response": [
+        {
+            "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDE5MTIxOCIsImV4cCI6MTYxNTczNDAxOCwiaWF0IjoxNjE1NzMwNDE4fQ.4ubh9lrbcMdlCD0uw79qAkhBcbIrwVq0Gi2xQ7mf2hM"
+        }
+    ]
+}
+```
+
+구현 상황
+> 3개의 테이블 생성
+> 1. tb_member : 회원관리 테이블. 관리자와 투자자를 회원 유형으로 구분.
+> 2. tb_product : 투자 상품 관리 테이블. 상품은 관리자만 등록이 가능. 투자 개시 전 수정 및 삭제 가능. 이후 불가능.
+> 3. tb_product_invest : 투자 상품과 투자자의 정보를 모은 테이블, 하나의 상품에 하나의 투자만 가능.
+
+> 첫 시작시 회원 가입 및 로그인 필요(토큰발급). 회원 가입 및 로그인을 제외한 기능은 토큰으로 인증체크를 하여 통과를 해야 이용 가능.  
+
+> jwt 인증을 통해 세션을 사용하지 않으므로 여러개의 서버들이 있어도 문제 없음. 
+
+
 ----
 > Error Code
 
@@ -169,6 +214,19 @@ Response 예시
 | ERR-0007 | 상품 수정 실패 |
 | ERR-0008 | 상품 삭제 실패 |
 | ERR-0009 | 상품 생성 실패 |
+
+---
+## Java package 구조
+- web package : springboot에서 web관련 패키지
+- common : 공통 패키지(json fomat, exception, util 등)
+- api 실제 request를 받아 처리하는 패키지 크게 4개의 api package 구성
+  > auth : 인증관련 (토큰 발급 및 토큰 체크)
+  >  
+  > member : 회원 관리 패키지
+  >  
+  > productmanagement : 상품관리 패키지
+  >
+  > investment : 투자 관련 기능이 모여있는 패키지
 
 
 -------
