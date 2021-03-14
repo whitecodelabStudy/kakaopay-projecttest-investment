@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kakaopay.project.api.auth.dto.AccessTokenDto;
 import com.kakaopay.project.api.auth.dto.AuthMemberDto;
 import com.kakaopay.project.api.auth.service.CustomUserDetailService;
 import com.kakaopay.project.api.auth.service.JwtTokenProvider;
@@ -22,8 +23,6 @@ import com.kakaopay.project.common.exception.ApiException;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -55,7 +54,7 @@ public class AuthController {
           this.customUserDetailService.loadUserByUsername(String.valueOf(authMemberDto.getMemberId()));
       String token = this.jwtTokenProvider.generateToken(userDetails);
       log.debug("### JWT :: " + token);
-      return ResponseEntity.ok(new ApiResponseJson.Builder(Map.of("access_token", token)).build());
+      return ResponseEntity.ok(new ApiResponseJson.Builder(new AccessTokenDto(token)).build());
     } catch (UsernameNotFoundException e) {
       log.error("Member not found!!", e);
       throw new ApiException(ApiCode.MEMBER_NOT_FOUND, "Member not found!!", e).setHttpStatus(HttpStatus.NO_CONTENT);

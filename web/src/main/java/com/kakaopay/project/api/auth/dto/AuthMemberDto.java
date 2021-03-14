@@ -20,6 +20,6 @@ public class AuthMemberDto {
   /**
    * 권한
    */
-  private String authority;
+  private String memberType;
 
 }
