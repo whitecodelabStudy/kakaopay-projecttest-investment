@@ -16,7 +16,6 @@ public class InvestStatusDto {
   /**
    * 투자 실패 이유
    */
-  @NonNull
   private final String failReason;
 
 }

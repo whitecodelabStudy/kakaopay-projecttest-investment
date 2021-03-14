@@ -14,7 +14,7 @@ public class InvestProductDto {
    * 상품 id
    */
   @NonNull
-  private final Long productId;
+  private Long productId;
   /**
    * 투자자 식별자
    */
@@ -24,6 +24,6 @@ public class InvestProductDto {
    * 투자금액
    */
   @NonNull
-  private final Long investedAmount;
+  private Long investedAmount;
 
 }
