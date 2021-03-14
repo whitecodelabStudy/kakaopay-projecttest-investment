@@ -33,7 +33,7 @@
                     , count(ti.member_id) as investor_count
                     , COALESCE(sum(tpi.invested_amount), 0) as now_investing_amount
                 FROM tb_product tp
-                LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id
+                LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id AND tpi.invest_status = 'SUCCESS'
                 LEFT OUTER JOIN tb_member ti ON ti.member_id = tpi.member_id
                 WHERE now() BETWEEN started_at AND finished_at
                 group by
@@ -80,7 +80,7 @@
                     , count(ti.member_id) as investor_count
                     , COALESCE(sum(tpi.invested_amount), 0) as now_investing_amount
                 FROM tb_product tp
-                LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id
+                LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id AND tpi.invest_status = 'SUCCESS'
                 LEFT OUTER JOIN tb_member ti ON ti.member_id = tpi.member_id
                 WHERE tp.member_id = #{memberId}
                 group by
@@ -128,7 +128,7 @@
             , count(ti.member_id) as investor_count
             , COALESCE(sum(tpi.invested_amount), 0) as now_investing_amount
         FROM tb_product tp
-        LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id
+        LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id AND tpi.invest_status = 'SUCCESS'
         LEFT OUTER JOIN tb_member ti ON ti.member_id = tpi.member_id
         WHERE tp.product_id = #{productId}
         group by

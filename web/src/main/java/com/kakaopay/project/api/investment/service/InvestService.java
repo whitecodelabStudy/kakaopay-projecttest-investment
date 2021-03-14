@@ -23,4 +23,9 @@ public class InvestService {
     return investMapper.insertProductInvest(investProductDto);
   }
 
+  @Transactional
+  public int deleteProductInvest(long investId) {
+    return investMapper.deleteProductInvest(investId);
+  }
+
 }

@@ -16,7 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 // token validate
 // token generate
 @Component
-public class JwtUtil {
+public class JwtTokenProvider {
 
   @Value("${jwt.secret}")
   private String jwtSecretKey;

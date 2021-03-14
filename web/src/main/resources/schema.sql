@@ -9,24 +9,24 @@ SET row_security = off;
 CREATE TYPE en_product_type AS ENUM (
     'REAL_ESTATE',
     'CREDIT'
-);
+    );
 
 CREATE TYPE en_member_type AS ENUM (
     'ADMIN',
     'INVESTOR'
-);
+    );
 
 CREATE TYPE en_product_status_type AS ENUM (
     'RECRUITING',
     'FINISHED',
     'SOLD_OUT'
-);
+    );
 
 CREATE TYPE en_invest_status_type AS ENUM (
     'READY',
     'SUCCESS',
     'FAIL'
-);
+    );
 
 -- Table: public.tb_member
 -- DROP TABLE public.tb_member;
@@ -40,9 +40,10 @@ CREATE TABLE public.tb_member
     modified_time timestamp default now(),
     CONSTRAINT pk_member_id PRIMARY KEY (member_id)
 )
-TABLESPACE pg_default;
+    TABLESPACE pg_default;
 
-ALTER TABLE public.tb_member OWNER to kakaopay;
+ALTER TABLE public.tb_member
+    OWNER to kakaopay;
 
 COMMENT ON TABLE public.tb_member IS '회원 테이블';
 COMMENT ON COLUMN public.tb_member.member_id IS '회원 아이디';
@@ -62,7 +63,8 @@ CREATE SEQUENCE public.seq_product_id
     CACHE 1;
 
 
-ALTER TABLE public.seq_product_id OWNER TO kakaopay;
+ALTER TABLE public.seq_product_id
+    OWNER TO kakaopay;
 
 CREATE TABLE public.tb_product
 (
@@ -144,20 +146,29 @@ CREATE FUNCTION sp_set_product_invest(i_product_id bigint, i_member_id bigint, i
 AS
 $$
 DECLARE
-    v_invest_id     bigint;
-    v_is_finished   boolean;
-    v_is_sold_out   boolean;
-    v_invest_status en_invest_status_type;
-    v_fail_reason   en_product_status_type;
+    v_invest_count    bigint := (SELECT count(invest_id)
+                                 FROM tb_product_invest tpp
+                                 WHERE tpp.product_id = i_product_id
+                                   AND tpp.member_id = i_member_id
+                                   AND tpp.invest_status = 'SUCCESS');
+    v_invest_id       bigint;
+    v_is_not_finished boolean;
+    v_is_sold_out     boolean;
+    v_invest_status   en_invest_status_type;
+    v_fail_reason     en_product_status_type;
 BEGIN
+
+    IF v_invest_count > 0 THEN
+        RAISE EXCEPTION 'duplicate invest' USING HINT = 'ERR-0004';
+    END IF;
 
     INSERT INTO tb_product_invest(product_id, member_id, invested_amount, created_time, modified_time)
     values (i_product_id, i_member_id, i_invested_amount, now(), now())
     returning tb_product_invest.invest_id INTO v_invest_id;
 
-    SELECT now() BETWEEN started_at AND finished_at                            as is_finished
+    SELECT now() BETWEEN started_at AND finished_at                            as is_not_finished
          , (now_investing_amount + i_invested_amount) > total_investing_amount as is_sold_out
-    into v_is_finished, v_is_sold_out
+    into v_is_not_finished, v_is_sold_out
     FROM (
              SELECT tp.product_id
                   , tp.total_investing_amount
@@ -165,7 +176,8 @@ BEGIN
                   , tp.finished_at
                   , COALESCE(sum(tpi.invested_amount), 0) as now_investing_amount
              FROM tb_product tp
-                      LEFT OUTER JOIN tb_product_invest tpi ON tp.product_id = tpi.product_id
+                      LEFT OUTER JOIN tb_product_invest tpi
+                                      ON tp.product_id = tpi.product_id AND tpi.invest_status = 'SUCCESS'
                       LEFT OUTER JOIN tb_member ti ON ti.member_id = tpi.member_id
              WHERE tp.product_id = i_product_id
              group by tp.product_id
@@ -174,13 +186,13 @@ BEGIN
                     , tp.finished_at
          ) AS b;
 
-    IF v_is_finished THEN
+    IF v_is_not_finished = false THEN
         UPDATE tb_product_invest
         SET invest_status = 'FAIL'
           , fail_reason   = 'FINISHED'
         WHERE tb_product_invest.invest_id = v_invest_id
         returning tb_product_invest.invest_status, tb_product_invest.fail_reason INTO v_invest_status, v_fail_reason;
-    ELSEIF v_is_sold_out THEN
+    ELSEIF v_is_sold_out = true THEN
         UPDATE tb_product_invest
         SET invest_status = 'FAIL'
           , fail_reason   = 'SOLD_OUT'
@@ -196,5 +208,4 @@ BEGIN
     RETURN QUERY SELECT v_invest_status, v_fail_reason;
 END;
 $$;
-
 

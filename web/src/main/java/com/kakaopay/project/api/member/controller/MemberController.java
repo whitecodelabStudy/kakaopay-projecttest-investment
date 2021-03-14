@@ -19,7 +19,7 @@ import com.kakaopay.project.common.apiformat.ApiResponseJson;
 @RequestMapping("/api/member")
 public class MemberController {
 
-  private final transient MemberService memberService;
+  private final MemberService memberService;
 
   @Autowired
   public MemberController(MemberService memberService) {
@@ -31,14 +31,16 @@ public class MemberController {
     return ResponseEntity.ok(new ApiResponseJson.Builder(memberService.getMember(memberId)).build());
   }
 
-  @PostMapping
-  public ResponseEntity<ApiResponseJson> addMember(@RequestBody AddMemberDto addMemberDto) {
-    return ResponseEntity.ok(new ApiResponseJson.Builder(memberService.addMember(addMemberDto)).build());
-  }
-
   @PutMapping
   public ResponseEntity<ApiResponseJson> modifyMember(@RequestBody UpdateMemberDto updateMemberDto) {
-    return ResponseEntity.ok(new ApiResponseJson.Builder(memberService.modifyMember(updateMemberDto)).build());
+    memberService.modifyMember(updateMemberDto);
+    return ResponseEntity.ok(new ApiResponseJson());
+  }
+
+  @PostMapping("/signup")
+  public ResponseEntity<ApiResponseJson> signup(@RequestBody AddMemberDto addMemberDto) {
+    memberService.addMember(addMemberDto);
+    return ResponseEntity.ok(new ApiResponseJson());
   }
 
 }

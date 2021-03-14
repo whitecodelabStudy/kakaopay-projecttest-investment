@@ -12,4 +12,6 @@ public interface InvestMapper {
 
   InvestStatusDto insertProductInvest(InvestProductDto investProductDto);
 
+  int deleteProductInvest(Long investId);
+
 }

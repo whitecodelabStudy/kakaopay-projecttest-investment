@@ -2,6 +2,7 @@ package com.kakaopay.project.api.investment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +26,14 @@ public class InvestProductController {
 
   @GetMapping
   @ApiOperation(value = "현재 투자 가능 투자 상품 조회 API", notes = "현재 투자 가능 투자 상품 조회 API.")
+  @PreAuthorize("hasRole('INVESTOR')")
   public ResponseEntity<ApiResponseJson> getInvestProducts() {
     return ResponseEntity.ok(new ApiResponseJson.Builder(productManagementService.getInvestProducts()).build());
   }
 
   @GetMapping("/{productId}")
   @ApiOperation(value = "투자 상품 조회 API", notes = "단일 상품 조회.")
+  @PreAuthorize("hasRole('INVESTOR')")
   public ResponseEntity<ApiResponseJson> getInvestProduct(@PathVariable long productId) {
     return ResponseEntity.ok(new ApiResponseJson.Builder(productManagementService.getProductById(productId)).build());
   }

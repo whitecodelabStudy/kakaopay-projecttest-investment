@@ -1,6 +1,8 @@
 package com.kakaopay.project.common.exception;
 
 
+import org.springframework.http.HttpStatus;
+
 import com.kakaopay.project.common.code.ApiCode;
 
 /**
@@ -16,34 +18,32 @@ public class ApiException extends RuntimeException {
   private static final long serialVersionUID = -2435810007394969909L;
 
   private final ApiCode apiCode;
-
-  public ApiException() {
-    super(ApiCode.UNKNOWN_ERROR.name());
-    this.apiCode = ApiCode.UNKNOWN_ERROR;
-  }
-
-  public ApiException(final ApiCode apiCode) {
-    super(apiCode.name());
-    this.apiCode = apiCode;
-  }
+  private final String message;
+  private HttpStatus httpStatus = HttpStatus.OK;
 
   public ApiException(final ApiCode apiCode, final String message, final Throwable cause) {
     super(message, cause);
     this.apiCode = apiCode;
+    this.message = message;
   }
 
   public ApiException(final ApiCode apiCode, final String message) {
     super(message);
     this.apiCode = apiCode;
-  }
-
-  public ApiException(final ApiCode apiCode, final Throwable cause) {
-    super(cause);
-    this.apiCode = apiCode;
+    this.message = message;
   }
 
   public ApiCode getApiCode() {
     return apiCode;
+  }
+
+  public ApiException setHttpStatus(HttpStatus httpStatus) {
+    this.httpStatus = httpStatus;
+    return this;
+  }
+
+  public HttpStatus getHttpStatus() {
+    return httpStatus;
   }
 
 }

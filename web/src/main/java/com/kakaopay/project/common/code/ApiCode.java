@@ -17,12 +17,25 @@ public enum ApiCode {
     // MEMBER_NOT_FOUND
     MEMBER_NOT_FOUND("ERR-0002"),
     // BAD_CREDENTIALS
-    BAD_CREDENTIALS("ERR-0003");
+    BAD_CREDENTIALS("ERR-0003"),
+    // DUPLICATE_INVEST
+    DUPLICATE_INVEST("ERR-0004"),
+    // MEMBER_SIGN_UP_FAIL
+    MEMBER_SIGN_UP_FAILED("ERR-0005"),
+    // MEMBER_MODIFIED_FAILED
+    MEMBER_MODIFIED_FAILED("ERR-0006");
 
   private String errorCode;
+  private String message;
 
   ApiCode(final String errorCode) {
     this.errorCode = errorCode;
+    this.message = "";
+  }
+
+  ApiCode(final String errorCode, final String message) {
+    this.errorCode = errorCode;
+    this.message = message;
   }
 
   public String getCode() {

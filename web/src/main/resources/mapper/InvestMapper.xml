@@ -2,9 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kakaopay.project.api.investment.mapper.InvestMapper">
+
     <select id="insertProductInvest" parameterType="com.kakaopay.project.api.investment.dto.InvestProductDto"
             resultType="com.kakaopay.project.api.investment.dto.InvestStatusDto">
         SELECT invest_status, fail_reason
         FROM sp_set_product_invest(#{productId}, #{memberId}, #{investedAmount});
     </select>
+
+    <delete id="deleteProductInvest" parameterType="long">
+        DELETE FROM tb_product_invest
+         WHERE invest_id = #{investId}
+           AND NOT EXISTS(
+                        SELECT tp.product_id, tpi.invest_id
+                        FROM tb_product tp
+                        JOIN tb_product_invest tpi
+                          ON tp.product_id = tpi.product_id
+                        WHERE invest_id = #{investId}
+                         AND now() BETWEEN started_at AND finished_at
+                        LIMIT 1
+        )
+    </delete>
 </mapper>

@@ -1,7 +1,5 @@
 package com.kakaopay.project.api.auth.service;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +24,11 @@ public class CustomUserDetailService implements UserDetailsService {
   public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
     MemberDetailDto memberDetailDto = memberMapper.selectMemberById(Long.valueOf(memberId));
     if (memberDetailDto != null && memberId.equals(String.valueOf(memberDetailDto.getMemberId()))) {
-      return new User(String.valueOf(memberDetailDto.getMemberId()), memberDetailDto.getPassword(), new ArrayList<>());
+      return User
+              .withUsername(String.valueOf(memberDetailDto.getMemberId()))
+              .password(memberDetailDto.getPassword())
+              .authorities(memberDetailDto.getMemberType())
+              .build();
     } else {
       throw new UsernameNotFoundException("Member not found!!");
     }

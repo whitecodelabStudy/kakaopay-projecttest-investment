@@ -7,7 +7,7 @@
         INSERT INTO tb_member
             (member_id, name, password, member_type, created_time, modified_time)
         VALUES
-            (#{memberId}, #{name}, #{password}, #{memberType}, now(), now())
+            (#{memberId}::bigint, #{name}, #{password}, #{memberType}::en_member_type, now(), now())
     </insert>
 
     <update id="updateMember" parameterType="com.kakaopay.project.api.member.dto.UpdateMemberDto">
@@ -16,7 +16,7 @@
           name = #{name},
           password = #{password},
           modified_time = now()
-        WHERE member_id = #{memberId}
+        WHERE member_id = #{memberId}::bigint
     </update>
 
     <select id="selectMemberById" parameterType="long" resultType="com.kakaopay.project.api.member.dto.MemberDetailDto">
@@ -28,7 +28,7 @@
             , created_time
             , member_type
         FROM tb_member
-        WHERE member_id = #{memberId}
+        WHERE member_id = #{memberId}::bigint
     </select>
 
 </mapper>

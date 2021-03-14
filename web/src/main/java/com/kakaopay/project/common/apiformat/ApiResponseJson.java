@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class ApiResponseJson {
 
-  private String resultCode = ApiCode.SUCCESS.getCode();
+  private String resultCode;
   private List<Object> response;
 
   public ApiResponseJson() {
@@ -25,6 +25,7 @@ public class ApiResponseJson {
    * @param builder response json builder
    */
   public ApiResponseJson(final Builder builder) {
+    this.resultCode = builder.builderResultCode;
     this.response = builder.builderResponse;
   }
 
@@ -33,6 +34,7 @@ public class ApiResponseJson {
    */
   public static class Builder {
     private List<Object> builderResponse;
+    private String builderResultCode;
 
     /**
      * Builder
@@ -45,7 +47,18 @@ public class ApiResponseJson {
       } else {
         this.builderResponse = Collections.singletonList(response);
       }
+      this.builderResultCode = ApiCode.SUCCESS.getCode();
     }
+
+    public Builder(final Object response, final ApiCode apiCode) {
+      if (response instanceof List) {
+        this.builderResponse = (List<Object>) response;
+      } else {
+        this.builderResponse = Collections.singletonList(response);
+      }
+      this.builderResultCode = apiCode.getCode();
+    }
+
 
     /**
      * setResponse
@@ -59,6 +72,11 @@ public class ApiResponseJson {
       } else {
         this.builderResponse = Collections.singletonList(response);
       }
+      return this;
+    }
+
+    public Builder setApiCode(final ApiCode resultCode) {
+      this.builderResultCode = resultCode.getCode();
       return this;
     }
 
