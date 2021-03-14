@@ -1,7 +1,5 @@
 package com.kakaopay.project.api.auth.config;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,16 +28,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final CustomUserDetailService customUserDetailService;
 
-  private final DataSource dataSource;
-
+  /**
+   * WebSecurityConfig
+   * 
+   * @param jwtAuthenticationEntryPoint jwtAuthenticationEntryPoint
+   * @param authenticationFilter authenticationFilter
+   * @param customUserDetailService customUserDetailService
+   */
   @Autowired
   public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-      JwtAuthenticationFilter authenticationFilter, CustomUserDetailService customUserDetailService,
-      DataSource dataSource) {
+      JwtAuthenticationFilter authenticationFilter, CustomUserDetailService customUserDetailService) {
     this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     this.authenticationFilter = authenticationFilter;
     this.customUserDetailService = customUserDetailService;
-    this.dataSource = dataSource;
   }
 
   @Autowired
@@ -47,6 +48,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     auth.userDetailsService(customUserDetailService).passwordEncoder(bCryptPasswordEncoder());
   }
 
+  /**
+   * bCryptPasswordEncoder
+   * 
+   * @return PasswordEncoder encoding
+   */
   @Bean
   public PasswordEncoder bCryptPasswordEncoder() {
     return new BCryptPasswordEncoder();

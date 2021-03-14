@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.kakaopay.project.api.BaseControllerTest;
 import com.kakaopay.project.api.auth.dto.AuthMemberDto;
 import com.kakaopay.project.web.WebApplication;
@@ -22,7 +24,6 @@ public class AuthControllerTest extends BaseControllerTest {
 
   /**
    * 토큰 발급 테스트 정상처리
-   * @throws Exception
    */
   @Test
   public void generateToken() throws Exception {
@@ -31,12 +32,11 @@ public class AuthControllerTest extends BaseControllerTest {
     authMemberDto.setMemberType("INVESTOR");
     authMemberDto.setPassword("1q2w3e4r!@");
 
-    issueAccessToken(authMemberDto);
+    assertThat(issueAccessToken(authMemberDto)).isNotEmpty();
   }
 
   /**
    * 토큰 발급 테스트 인증실패
-   * @throws Exception
    */
   @Test
   public void generateTokenBadCredentials() throws Exception {
@@ -54,7 +54,6 @@ public class AuthControllerTest extends BaseControllerTest {
 
   /**
    * 토큰 발급 테스트 사용자 찾지 못함
-   * @throws Exception
    */
   @Test
   public void generateTokenMemberNotFound() throws Exception {

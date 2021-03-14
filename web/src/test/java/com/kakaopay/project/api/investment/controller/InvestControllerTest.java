@@ -42,8 +42,8 @@ class InvestControllerTest extends BaseControllerTest {
   @Test
   void investProduct() throws Exception {
     // 정상투자
-    InvestProductDto investProductDto = new InvestProductDto(1l, 5555l);
-    investProductDto.setMemberId(20191218l);
+    InvestProductDto investProductDto = new InvestProductDto(1L, 5555l);
+    investProductDto.setMemberId(Long.valueOf(20191218));
     MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
@@ -53,8 +53,8 @@ class InvestControllerTest extends BaseControllerTest {
     assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
 
     // sold out
-    investProductDto = new InvestProductDto(1l, 1111111111111l);
-    investProductDto.setMemberId(20191218l);
+    investProductDto = new InvestProductDto(1L, 1111111111111L);
+    investProductDto.setMemberId(20191218L);
     mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))

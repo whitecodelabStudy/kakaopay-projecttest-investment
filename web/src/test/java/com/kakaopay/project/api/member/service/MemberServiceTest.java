@@ -59,10 +59,10 @@ class MemberServiceTest {
   @Rollback(false)
   void modifyMember() {
 
-    List<UpdateMemberDto> list = Arrays.asList(new UpdateMemberDto(20171036l, "상품관리자", "1q2w3e4r"),
-        new UpdateMemberDto(20191218l, "승후", "1q2w3e4r"), new UpdateMemberDto(10111218l, "sangsub.lee", "1q2w3e4r"),
-        new UpdateMemberDto(76664l, "mirae", "1q2w3e4r"), new UpdateMemberDto(97553l, "호비", "1q2w3e4r"),
-        new UpdateMemberDto(3325812l, "베니", "1q2w3e4r"));
+    List<UpdateMemberDto> list = Arrays.asList(new UpdateMemberDto(20171036L, "상품관리자", "1q2w3e4r"),
+        new UpdateMemberDto(20191218L, "승후", "1q2w3e4r"), new UpdateMemberDto(10111218L, "sangsub.lee", "1q2w3e4r"),
+        new UpdateMemberDto(76664L, "mirae", "1q2w3e4r"), new UpdateMemberDto(97553L, "호비", "1q2w3e4r"),
+        new UpdateMemberDto(3325812L, "베니", "1q2w3e4r"));
 
     for (UpdateMemberDto updateMemberDto : list) {
       // 회원 수정

@@ -45,15 +45,12 @@ class ProductManagementServiceTest {
   public void insertProductDtoTestData() {
     List<ProductDto> testDataList = Arrays.asList(
         new ProductDto("TEST_1남양주 부동산", ProductType.REAL_ESTATE, (long) 10000000, "2021-04-01", "2021-04-02",
-            (long) testMemberId),
-        new ProductDto("TEST_개인신용 포트폴리오", ProductType.CREDIT, (long) 999999, "2020-03-01", "2020-12-31",
-            (long) testMemberId),
-        new ProductDto("TEST_판교 빌딩", ProductType.REAL_ESTATE, (long) 777777, "2021-04-01", "2021-05-31",
-            (long) testMemberId),
-        new ProductDto("TEST_개인신용 주식", ProductType.CREDIT, (long) 808080, "2021-01-01", "2021-07-31",
-            (long) testMemberId),
+            testMemberId),
+        new ProductDto("TEST_개인신용 포트폴리오", ProductType.CREDIT, (long) 999999, "2020-03-01", "2020-12-31", testMemberId),
+        new ProductDto("TEST_판교 빌딩", ProductType.REAL_ESTATE, (long) 777777, "2021-04-01", "2021-05-31", testMemberId),
+        new ProductDto("TEST_개인신용 주식", ProductType.CREDIT, (long) 808080, "2021-01-01", "2021-07-31", testMemberId),
         new ProductDto("TEST_강남 부동산", ProductType.REAL_ESTATE, (long) 222222222, "2021-03-01", "2021-12-31",
-            (long) testMemberId));
+            testMemberId));
     for (ProductDto productDto : testDataList) {
       productManagementService.addProduct(productDto);
     }

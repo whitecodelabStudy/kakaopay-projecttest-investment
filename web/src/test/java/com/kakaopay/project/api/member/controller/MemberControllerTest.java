@@ -59,7 +59,7 @@ class MemberControllerTest extends BaseControllerTest {
   @Test
   @Transactional
   void modifyMember() throws Exception {
-    UpdateMemberDto updateMemberDto = new UpdateMemberDto(Long.valueOf(20171036l), "테스트관리자", "1q2w3e4r");
+    UpdateMemberDto updateMemberDto = new UpdateMemberDto(Long.valueOf(20171036L), "테스트관리자", "1q2w3e4r");
     MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.put("/api/member").accept(MediaType.APPLICATION_JSON).headers(headers)
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(updateMemberDto)))
