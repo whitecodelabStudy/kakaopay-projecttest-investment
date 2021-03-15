@@ -20,9 +20,9 @@ public interface ProductManagementMapper {
 
   int deleteProduct(long productId);
 
-  int updateProduct(ProductDto ProductDto);
+  int updateProduct(ProductDto productDto);
 
-  int insertProduct(ProductDto ProductDto);
+  int insertProduct(ProductDto productDto);
 
   int selectProductCount();
 

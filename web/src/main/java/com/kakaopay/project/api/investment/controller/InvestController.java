@@ -31,22 +31,24 @@ public class InvestController {
 
   @PostMapping
   @ApiOperation(value = "투자하기", notes = "투자하기 API.")
+  @PreAuthorize("INVESTOR")
   public ResponseEntity<ApiResponseJson> investProduct(@RequestBody InvestProductDto investProductDto,
-      @RequestHeader(value = "X-USER-ID") long memberId) {
+      @RequestHeader("X-USER-ID") long memberId) {
     investProductDto.setMemberId(memberId);
     return ResponseEntity.ok(new ApiResponseJson.Builder(investService.insertProductInvest(investProductDto)).build());
   }
 
   @DeleteMapping("{investId}")
   @ApiOperation(value = "투자 취소", notes = "투자 취소 API.")
+  @PreAuthorize("INVESTOR")
   public ResponseEntity<ApiResponseJson> deleteProductInvest(@PathVariable Long investId) {
     return ResponseEntity.ok(new ApiResponseJson.Builder(investService.deleteProductInvest(investId)).build());
   }
 
   @GetMapping("/account")
   @ApiOperation(value = "나의 투자상품 조회 API", notes = "나의 투자상품 조회")
-  @PreAuthorize("hasRole('INVESTOR')")
-  public ResponseEntity<ApiResponseJson> getMyInvestProducts(@RequestHeader(value = "X-USER-ID") long memberId) {
+  @PreAuthorize("INVESTOR")
+  public ResponseEntity<ApiResponseJson> getMyInvestProducts(@RequestHeader("X-USER-ID") long memberId) {
     return ResponseEntity.ok(new ApiResponseJson.Builder(investService.getMyInvestProducts(memberId)).build());
   }
 

@@ -35,6 +35,13 @@ public class AuthController {
 
   private final JwtTokenProvider jwtTokenProvider;
 
+  /**
+   * AuthController Constructor
+   *
+   * @param authenticationManager authenticationManager
+   * @param customUserDetailService customUserDetailService
+   * @param jwtTokenProvider jwtTokenProvider
+   */
   @Autowired
   public AuthController(AuthenticationManager authenticationManager, CustomUserDetailService customUserDetailService,
       JwtTokenProvider jwtTokenProvider) {
@@ -43,18 +50,25 @@ public class AuthController {
     this.jwtTokenProvider = jwtTokenProvider;
   }
 
-  @PostMapping(value = "/authenticate")
+  /**
+   * generateToken 토큰 생성
+   *
+   * @param authMemberDto
+   * @return
+   */
+  @PostMapping("/authenticate")
   @ApiOperation(value = "token 발급", notes = "사용자 로그인 후 jwt token 을 발급한다.")
   public ResponseEntity<ApiResponseJson> generateToken(@RequestBody AuthMemberDto authMemberDto) {
     try {
+      // id, password 를 이용하여 인증.
       UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
           String.valueOf(authMemberDto.getMemberId()), authMemberDto.getPassword());
       this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
       UserDetails userDetails =
           this.customUserDetailService.loadUserByUsername(String.valueOf(authMemberDto.getMemberId()));
-      String token = this.jwtTokenProvider.generateToken(userDetails);
-      log.debug("### JWT :: " + token);
-      return ResponseEntity.ok(new ApiResponseJson.Builder(new AccessTokenDto(token)).build());
+      // token 생성
+      return ResponseEntity.ok(
+          new ApiResponseJson.Builder(new AccessTokenDto(this.jwtTokenProvider.generateToken(userDetails))).build());
     } catch (UsernameNotFoundException e) {
       log.error("Member not found!!", e);
       throw new ApiException(ApiCode.MEMBER_NOT_FOUND, "Member not found!!", e).setHttpStatus(HttpStatus.NO_CONTENT);

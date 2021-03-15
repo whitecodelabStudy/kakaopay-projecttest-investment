@@ -29,7 +29,7 @@ public class MemberController {
 
   @GetMapping
   @ApiOperation(value = "회원 조회", notes = "회원 조회 API.")
-  public ResponseEntity<ApiResponseJson> getMember(@RequestHeader(value = "X-USER-ID") long memberId) {
+  public ResponseEntity<ApiResponseJson> getMember(@RequestHeader("X-USER-ID") long memberId) {
     return ResponseEntity.ok(new ApiResponseJson.Builder(memberService.getMember(memberId)).build());
   }
 

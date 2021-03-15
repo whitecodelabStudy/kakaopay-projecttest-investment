@@ -21,14 +21,11 @@ public class CustomUserDetailService implements UserDetailsService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String memberId) {
     MemberDetailDto memberDetailDto = memberMapper.selectMemberById(Long.valueOf(memberId));
     if (memberDetailDto != null && memberId.equals(String.valueOf(memberDetailDto.getMemberId()))) {
-      return User
-              .withUsername(String.valueOf(memberDetailDto.getMemberId()))
-              .password(memberDetailDto.getPassword())
-              .authorities(memberDetailDto.getMemberType())
-              .build();
+      return User.withUsername(String.valueOf(memberDetailDto.getMemberId())).password(memberDetailDto.getPassword())
+          .authorities(memberDetailDto.getMemberType()).build();
     } else {
       throw new UsernameNotFoundException("Member not found!!");
     }

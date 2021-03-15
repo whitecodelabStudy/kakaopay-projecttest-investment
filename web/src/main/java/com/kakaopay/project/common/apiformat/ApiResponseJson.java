@@ -51,6 +51,12 @@ public class ApiResponseJson {
       this.builderResultCode = ApiCode.SUCCESS.getCode();
     }
 
+    /**
+     * false
+     *
+     * @param response api response
+     * @param apiCode api code
+     */
     public Builder(final Object response, final ApiCode apiCode) {
       if (response instanceof List) {
         this.builderResponse = (List<Object>) response;

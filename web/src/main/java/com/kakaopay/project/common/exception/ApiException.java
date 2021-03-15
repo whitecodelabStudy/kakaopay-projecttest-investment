@@ -21,12 +21,25 @@ public class ApiException extends RuntimeException {
   private final String message;
   private HttpStatus httpStatus = HttpStatus.OK;
 
+  /**
+   * ApiException Constructor
+   *
+   * @param apiCode apiCode
+   * @param message message
+   * @param cause Throwable
+   */
   public ApiException(final ApiCode apiCode, final String message, final Throwable cause) {
     super(message, cause);
     this.apiCode = apiCode;
     this.message = message;
   }
 
+  /**
+   * ApiException Constructor
+   *
+   * @param apiCode apiCode
+   * @param message message
+   */
   public ApiException(final ApiCode apiCode, final String message) {
     super(message);
     this.apiCode = apiCode;

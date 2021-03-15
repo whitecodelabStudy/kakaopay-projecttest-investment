@@ -24,6 +24,12 @@ public class MemberService {
     this.passwordEncoder = passwordEncoder;
   }
 
+  /**
+   * getMember
+   *
+   * @param memberId memberId
+   * @return MemberDetailDto
+   */
   @Transactional
   public MemberDetailDto getMember(long memberId) {
     MemberDetailDto memberDetailDto = memberMapper.selectMemberById(memberId);
@@ -34,6 +40,11 @@ public class MemberService {
     }
   }
 
+  /**
+   * 회원 등록
+   * 
+   * @param addMemberDto addMemberDto
+   */
   @Transactional
   public void addMember(AddMemberDto addMemberDto) {
     String encodePassword = passwordEncoder.encode(addMemberDto.getPassword());
@@ -43,6 +54,11 @@ public class MemberService {
     }
   }
 
+  /**
+   * 회원 수정
+   *
+   * @param updateMemberDto updateMemberDto
+   */
   @Transactional
   public void modifyMember(UpdateMemberDto updateMemberDto) {
     String encodePassword = passwordEncoder.encode(updateMemberDto.getPassword());

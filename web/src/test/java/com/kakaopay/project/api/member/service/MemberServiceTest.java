@@ -31,7 +31,7 @@ class MemberServiceTest {
 
   @Test
   void getMember() {
-    Long memberId = 20191218l;
+    Long memberId = 20191218L;
     // 회원 찾기 성공일때.
     MemberDetailDto memberDetailDto = memberService.getMember(memberId);
     Assert.assertEquals(memberDetailDto.getMemberId(), memberId);
@@ -44,7 +44,7 @@ class MemberServiceTest {
   @Transactional
   void addMember() {
     AddMemberDto addMemberDto = new AddMemberDto();
-    addMemberDto.setMemberId(779797979l);
+    addMemberDto.setMemberId(779797979L);
     addMemberDto.setName("name TETET");
     addMemberDto.setMemberType("INVESTOR");
     addMemberDto.setPassword("779797979l");

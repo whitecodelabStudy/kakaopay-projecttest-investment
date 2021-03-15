@@ -25,10 +25,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private static final String TOKEN_TYPE = "Bearer ";
 
   private final JwtTokenProvider jwtTokenProvider;
+
   private final CustomUserDetailService customUserDetailService;
 
+  /**
+   * JwtAuthenticationFilter Constructor
+   *
+   * @param jwtTokenProvider
+   * @param customUserDetailService
+   */
   @Autowired
   public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, CustomUserDetailService customUserDetailService) {
+    super();
     this.jwtTokenProvider = jwtTokenProvider;
     this.customUserDetailService = customUserDetailService;
   }
