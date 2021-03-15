@@ -264,5 +264,3 @@ postgres                     latest    1f0815c1cb6e   3 weeks ago    314 MB
 > cd web\build\libs
 > 
 > java -jar web-0.0.1-SNAPSHOT.war
-> 
-> repository 변경
