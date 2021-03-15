@@ -61,13 +61,9 @@ public class ProductManagementService {
    */
   @Transactional
   public void updateProduct(ProductDto productDto) {
-    try {
-      int result = productManagementMapper.updateProduct(productDto);
-      if (result == 0) {
-        throw new ApiException(ApiCode.PRODUCT_MODIFIED_FAILED, "Product modified failed!!");
-      }
-    } catch (Exception e) {
-      throw new ApiException(ApiCode.PRODUCT_MODIFIED_FAILED, "Product modified failed!!", e);
+    int result = productManagementMapper.updateProduct(productDto);
+    if (result == 0) {
+      throw new ApiException(ApiCode.PRODUCT_MODIFIED_FAILED, "Product modified failed!!");
     }
   }
 
@@ -78,13 +74,9 @@ public class ProductManagementService {
    */
   @Transactional
   public void deleteProduct(long productId) {
-    try {
-      int result = productManagementMapper.deleteProduct(productId);
-      if (result == 0) {
-        throw new ApiException(ApiCode.PRODUCT_DELETE_FAILED, "Product delete failed!!");
-      }
-    } catch (Exception e) {
-      throw new ApiException(ApiCode.PRODUCT_DELETE_FAILED, "Product delete failed!!", e);
+    int result = productManagementMapper.deleteProduct(productId);
+    if (result == 0) {
+      throw new ApiException(ApiCode.PRODUCT_DELETE_FAILED, "Product delete failed!!");
     }
   }
 
@@ -95,15 +87,10 @@ public class ProductManagementService {
    */
   @Transactional
   public void addProduct(ProductDto productDto) {
-    try {
-      int result = productManagementMapper.insertProduct(productDto);
-      if (result == 0) {
-        throw new ApiException(ApiCode.PRODUCT_ADD_FAILED, "Product modified failed!!");
-      }
-    } catch (Exception e) {
-      throw new ApiException(ApiCode.PRODUCT_ADD_FAILED, "Product add failed!!", e);
+    int result = productManagementMapper.insertProduct(productDto);
+    if (result == 0) {
+      throw new ApiException(ApiCode.PRODUCT_ADD_FAILED, "Product modified failed!!");
     }
-
   }
 
   /**

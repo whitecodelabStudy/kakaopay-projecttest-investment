@@ -239,3 +239,25 @@ INSERT INTO tb_product (title, "product_type", total_investing_amount, started_a
 VALUES('3기신도시 투기지역', 'REAL_ESTATE', 1000000, '2021-04-01', '2021-05-10', NOW(), NOW(), 20171036);
 
 -- 투자 정보
+
+
+/* 테이블 초기화 하기 */
+/*
+-- drop table
+drop table tb_product_invest;
+drop table tb_product;
+drop table tb_member;
+
+-- drop sequence
+drop sequence seq_product_id;
+drop sequence seq_product_invest_id;
+
+-- drop function
+drop function sp_set_product_invest(bigint,bigint,bigint);
+
+-- drop enum type
+drop type en_invest_status_type;
+drop type en_member_type;
+drop type en_product_status_type;
+drop type en_product_type;
+*/
