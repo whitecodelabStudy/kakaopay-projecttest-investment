@@ -22,7 +22,7 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
   }
 
   @ExceptionHandler(SQLException.class)
-  public ResponseEntity<ApiResponseJson> handlerSQLException() {
+  public ResponseEntity<ApiResponseJson> handlerSqlException(SQLException sqlException) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(new ApiResponseJson.Builder(Collections.emptyList()).build());
   }
