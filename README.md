@@ -2,13 +2,14 @@
 > 상품 투자 서비스 개발
 
 ## 개발 환경
-- Java11
+- Java 11 
 - Spring Boot 2.4.3
-- Mybatis
-- Postgresql
-- Gradle
+- Mybatis 2.1.4
+- Postgresql 12.6
+- Gradle 6.x
 - Junit5 
 - Lombok
+- Swagger 2.9.2
 - ETC. pmd, checkstyle
 
 ## 기능요구사항 
