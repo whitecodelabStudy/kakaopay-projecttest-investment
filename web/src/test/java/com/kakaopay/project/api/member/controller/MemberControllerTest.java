@@ -1,8 +1,9 @@
 package com.kakaopay.project.api.member.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Random;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +44,7 @@ class MemberControllerTest extends BaseControllerTest {
   }
 
   @Test
-  void getMember() throws Exception {
+  public void getMember() throws Exception {
 
     makeHeader();
     MvcResult mvcResult = mockMvc
@@ -52,29 +53,29 @@ class MemberControllerTest extends BaseControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
-    Assert.assertEquals(apiResponseJson.getResponse().size(), 1);
+    assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
+    assertThat(apiResponseJson.getResponse().size()).isEqualTo(1);
   }
 
   @Test
   @Transactional
   void modifyMember() throws Exception {
-    UpdateMemberDto updateMemberDto = new UpdateMemberDto(Long.valueOf(20171036L), "테스트관리자", "1q2w3e4r");
+    UpdateMemberDto updateMemberDto = new UpdateMemberDto(Long.valueOf(20_171_036L), "테스트관리자", "1q2w3e4r");
     MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders.put("/api/member").accept(MediaType.APPLICATION_JSON).headers(headers)
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(updateMemberDto)))
         .andDo(MockMvcResultHandlers.print()).andReturn();
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
+    assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
   }
 
   @Test
   @Transactional
-  void signup() throws Exception {
+  public void signup() throws Exception {
     isMakeHeader = false;
     // 사용자 추가.
     AddMemberDto addMemberDto = new AddMemberDto();
-    addMemberDto.setMemberId(Long.valueOf(new Random().nextInt(99999)));
+    addMemberDto.setMemberId(Long.valueOf(new Random().nextInt(99_999)));
     addMemberDto.setPassword("123qwe");
     addMemberDto.setName("sssue");
     addMemberDto.setMemberType("ADMIN");
@@ -85,7 +86,7 @@ class MemberControllerTest extends BaseControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    Assert.assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
+    assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
   }
 
 }

@@ -1,5 +1,7 @@
 package com.kakaopay.project.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Disabled;
@@ -19,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaopay.project.api.auth.dto.AuthMemberDto;
 import com.kakaopay.project.api.util.TestUtil;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
+import com.kakaopay.project.common.code.ApiCode;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -28,10 +31,12 @@ public class BaseControllerTest {
 
   private static final String AUTH_HEADER = "Authorization";
   private static final String TOKEN_TYPE = "Bearer ";
+  protected long memberId = 20_191_218;
+  protected long memberIdFail = 120_191_218;
 
   @Autowired
   protected MockMvc mockMvc;
-  protected HttpHeaders headers = null;
+  protected HttpHeaders headers;
 
   protected void makeHeader() throws Exception {
     // 테스트 계정 설정.
@@ -55,14 +60,14 @@ public class BaseControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    String accessToken = (String) ((LinkedHashMap) apiResponseJson.getResponse().get(0)).get("accessToken");
-    return accessToken;
+    assertThat(ApiCode.SUCCESS.getCode()).isEqualTo(apiResponseJson.getResultCode());
+    return (String) ((LinkedHashMap) apiResponseJson.getResponse().get(0)).get("accessToken");
   }
 
   protected AuthMemberDto settingTestMember() {
     // token 발급받을 계정 세팅.
     AuthMemberDto authMemberDto = new AuthMemberDto();
-    authMemberDto.setMemberId(20191218);
+    authMemberDto.setMemberId(memberId);
     authMemberDto.setMemberType("INVESTOR");
     authMemberDto.setPassword("1q2w3e4r");
     return authMemberDto;

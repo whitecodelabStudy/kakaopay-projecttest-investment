@@ -1,9 +1,11 @@
 package com.kakaopay.project.api.member.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,47 +32,47 @@ class MemberServiceTest {
   }
 
   @Test
-  void getMember() {
-    Long memberId = 20191218L;
+  public void getMember() {
+    Long memberId = 20_191_218L;
     // 회원 찾기 성공일때.
     MemberDetailDto memberDetailDto = memberService.getMember(memberId);
-    Assert.assertEquals(memberDetailDto.getMemberId(), memberId);
+    assertEquals(memberDetailDto.getMemberId(), memberId);
 
     // 오류 테스트 (조회된 회원이 없을때)
-    Assert.assertThrows(ApiException.class, () -> memberService.getMember(123123));
+    assertThrows(ApiException.class, () -> memberService.getMember(123_123));
   }
 
   @Test
   @Transactional
-  void addMember() {
+  public void addMember() {
     AddMemberDto addMemberDto = new AddMemberDto();
-    addMemberDto.setMemberId(779797979L);
+    addMemberDto.setMemberId(779_797_979L);
     addMemberDto.setName("name TETET");
     addMemberDto.setMemberType("INVESTOR");
     addMemberDto.setPassword("779797979l");
     // 처음 성공
     memberService.addMember(addMemberDto);
 
-    Assert.assertEquals(memberService.getMember(addMemberDto.getMemberId()).getMemberId(), addMemberDto.getMemberId());
+    assertEquals(memberService.getMember(addMemberDto.getMemberId()).getMemberId(), addMemberDto.getMemberId());
   }
 
   @Test
   @Transactional
   @Rollback(false)
-  void modifyMember() {
+  public void modifyMember() {
 
-    List<UpdateMemberDto> list = Arrays.asList(new UpdateMemberDto(20171036L, "상품관리자", "1q2w3e4r"),
-        new UpdateMemberDto(20191218L, "승후", "1q2w3e4r"), new UpdateMemberDto(10111218L, "sangsub.lee", "1q2w3e4r"),
-        new UpdateMemberDto(76664L, "mirae", "1q2w3e4r"), new UpdateMemberDto(97553L, "호비", "1q2w3e4r"),
-        new UpdateMemberDto(3325812L, "베니", "1q2w3e4r"));
+    List<UpdateMemberDto> list = Arrays.asList(new UpdateMemberDto(20_171_036L, "상품관리자", "1q2w3e4r"),
+        new UpdateMemberDto(20_191_218L, "승후", "1q2w3e4r"), new UpdateMemberDto(10_111_218L, "sangsub.lee", "1q2w3e4r"),
+        new UpdateMemberDto(76_664L, "mirae", "1q2w3e4r"), new UpdateMemberDto(97_553L, "호비", "1q2w3e4r"),
+        new UpdateMemberDto(3_325_812L, "베니", "1q2w3e4r"));
 
     for (UpdateMemberDto updateMemberDto : list) {
       // 회원 수정
       memberService.modifyMember(updateMemberDto);
       // 회원 조회 뒤 비교
       MemberDetailDto memberDetailDto = memberService.getMember(updateMemberDto.getMemberId());
-      Assert.assertEquals(memberDetailDto.getMemberId(), updateMemberDto.getMemberId());
-      Assert.assertEquals(memberDetailDto.getName(), updateMemberDto.getName());
+      assertEquals(memberDetailDto.getMemberId(), updateMemberDto.getMemberId());
+      assertEquals(memberDetailDto.getName(), updateMemberDto.getName());
     }
   }
 

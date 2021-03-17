@@ -43,7 +43,7 @@ public class ApiResponseJson {
      * @param response response builder
      */
     public Builder(final Object response) {
-      if (response instanceof List) {
+      if (response instanceof List<?>) {
         this.builderResponse = (List<Object>) response;
       } else {
         this.builderResponse = Collections.singletonList(response);
@@ -58,7 +58,7 @@ public class ApiResponseJson {
      * @param apiCode api code
      */
     public Builder(final Object response, final ApiCode apiCode) {
-      if (response instanceof List) {
+      if (response instanceof List<?>) {
         this.builderResponse = (List<Object>) response;
       } else {
         this.builderResponse = Collections.singletonList(response);
@@ -74,7 +74,7 @@ public class ApiResponseJson {
      * @return Builder
      */
     public Builder setResponse(final Object response) {
-      if (response instanceof List) {
+      if (response instanceof List<?>) {
         this.builderResponse = (List<Object>) response;
       } else {
         this.builderResponse = Collections.singletonList(response);

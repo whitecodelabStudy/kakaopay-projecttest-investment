@@ -18,7 +18,6 @@ public class ApiException extends RuntimeException {
   private static final long serialVersionUID = -2435810007394969909L;
 
   private final ApiCode apiCode;
-  private final String message;
   private HttpStatus httpStatus = HttpStatus.OK;
 
   /**
@@ -31,7 +30,6 @@ public class ApiException extends RuntimeException {
   public ApiException(final ApiCode apiCode, final String message, final Throwable cause) {
     super(message, cause);
     this.apiCode = apiCode;
-    this.message = message;
   }
 
   /**
@@ -43,7 +41,6 @@ public class ApiException extends RuntimeException {
   public ApiException(final ApiCode apiCode, final String message) {
     super(message);
     this.apiCode = apiCode;
-    this.message = message;
   }
 
   public ApiCode getApiCode() {

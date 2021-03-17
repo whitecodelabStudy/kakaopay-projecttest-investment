@@ -28,43 +28,44 @@ class InvestServiceTest extends BaseControllerTest {
 
   @Autowired
   public InvestServiceTest(InvestService investService) {
+    super();
     this.investService = investService;
   }
 
   @Test
   @Transactional
-  void insertProductInvest() {
+  public void insertProductInvest() {
     // 정상투자
-    InvestProductDto investProductDto = new InvestProductDto(3L, 5555L);
-    investProductDto.setMemberId(20191218L);
+    InvestProductDto investProductDto = new InvestProductDto(3L, 5_555L);
+    investProductDto.setMemberId(20_191_218L);
     InvestStatusDto investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat(investStatusDto.getInvestStatus()).isEqualTo("SUCCESS");
 
     // sold out
-    investProductDto = new InvestProductDto(2L, 1111111111111L);
-    investProductDto.setMemberId(20191218L);
+    investProductDto = new InvestProductDto(2L, 1_111_111_111_111L);
+    investProductDto.setMemberId(20_191_218L);
     investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat("FAIL").isEqualTo(investStatusDto.getInvestStatus());
     assertThat("SOLD_OUT").isEqualTo(investStatusDto.getFailReason());
 
     // 투자 기간 끝남.
     investProductDto = new InvestProductDto(1L, 1L);
-    investProductDto.setMemberId(20191218L);
+    investProductDto.setMemberId(20_191_218L);
     investStatusDto = investService.insertProductInvest(investProductDto);
     assertThat("FAIL").isEqualTo(investStatusDto.getInvestStatus());
     assertThat("FINISHED").isEqualTo(investStatusDto.getFailReason());
   }
 
   @Test
-  void getMyInvestProducts() {
-    List<MyInvestProductDto> myInvestProductList = investService.getMyInvestProducts(19840130);
+  public void getMyInvestProducts() {
+    List<MyInvestProductDto> myInvestProductList = investService.getMyInvestProducts(19_840_130);
     for (MyInvestProductDto myInvestProduct : myInvestProductList) {
       assertThat(myInvestProduct.getProductId()).isEqualTo(1);
     }
   }
 
-  // @Test
-  void deleteProductInvest() {
+  @Test
+  public void deleteProductInvest() {
     // 투자 취소. 모집이 끝나지 않은 상태에만 가능.
     // 성공
     int result = investService.deleteProductInvest(6);

@@ -15,8 +15,12 @@ import com.kakaopay.project.web.WebApplication;
 class InvestProductControllerTest extends BaseControllerTest {
 
   @Test
-  void getInvestProducts() {}
+  public void getInvestProducts() {
+    // do nothing
+  }
 
   @Test
-  void getInvestProduct() {}
+  public void getInvestProduct() {
+    // do nothing
+  }
 }
