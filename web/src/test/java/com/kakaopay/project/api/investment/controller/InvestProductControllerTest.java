@@ -6,7 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.kakaopay.project.api.BaseControllerTest;
+import com.kakaopay.project.api.base.controller.BaseControllerTest;
 import com.kakaopay.project.web.WebApplication;
 
 @RunWith(SpringRunner.class)

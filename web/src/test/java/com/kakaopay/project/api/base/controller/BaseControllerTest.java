@@ -1,4 +1,4 @@
-package com.kakaopay.project.api;
+package com.kakaopay.project.api.base.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,13 +34,14 @@ public class BaseControllerTest {
   protected long memberId = 20_191_218;
   protected long memberIdFail = 120_191_218;
 
+  protected long memberId = 20_191_218;
+  protected long memberIdFail = 120_191_218;
+
   @Autowired
   protected MockMvc mockMvc;
   protected HttpHeaders headers;
 
-  protected void makeHeader() throws Exception {
-    // 테스트 계정 설정.
-    AuthMemberDto authMemberDto = settingTestMember();
+  protected void makeHeader(AuthMemberDto authMemberDto) throws Exception {
     // member id header 세팅.
     this.headers = setMemberIdHeader(String.valueOf(authMemberDto.getMemberId()));
     // token 발급.
@@ -64,11 +65,20 @@ public class BaseControllerTest {
     return (String) ((LinkedHashMap) apiResponseJson.getResponse().get(0)).get("accessToken");
   }
 
-  protected AuthMemberDto settingTestMember() {
+  protected AuthMemberDto settingTestInvestor() {
     // token 발급받을 계정 세팅.
     AuthMemberDto authMemberDto = new AuthMemberDto();
     authMemberDto.setMemberId(memberId);
     authMemberDto.setMemberType("INVESTOR");
+    authMemberDto.setPassword("1q2w3e4r");
+    return authMemberDto;
+  }
+
+  protected AuthMemberDto settingTestAdmin() {
+    // token 발급받을 계정 세팅.
+    AuthMemberDto authMemberDto = new AuthMemberDto();
+    authMemberDto.setMemberId(memberId);
+    authMemberDto.setMemberType("ADMIN");
     authMemberDto.setPassword("1q2w3e4r");
     return authMemberDto;
   }

@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.kakaopay.project.api.BaseControllerTest;
+import com.kakaopay.project.api.base.controller.BaseControllerTest;
 import com.kakaopay.project.api.member.dto.AddMemberDto;
 import com.kakaopay.project.api.member.dto.UpdateMemberDto;
 import com.kakaopay.project.api.util.TestUtil;
