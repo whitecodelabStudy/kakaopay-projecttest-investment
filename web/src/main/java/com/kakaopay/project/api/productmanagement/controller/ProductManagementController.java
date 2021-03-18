@@ -1,5 +1,6 @@
 package com.kakaopay.project.api.productmanagement.controller;
 
+import com.kakaopay.project.api.productmanagement.dto.AddProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,14 +48,14 @@ public class ProductManagementController {
   @PostMapping
   @ApiOperation(value = "투자 상품 등록 API", notes = "투자 상품을 등록.")
   @PreAuthorize("ADMIN")
-  public ResponseEntity<ApiResponseJson> addProduct(@RequestBody ProductDto productDto) {
-    productManagementService.addProduct(productDto);
+  public ResponseEntity<ApiResponseJson> addProduct(@RequestBody AddProductDto addProductDto) {
+    productManagementService.addProduct(addProductDto);
     return ResponseEntity.ok(new ApiResponseJson());
   }
 
   @PutMapping
   @ApiOperation(value = "투자 상품 수정 API", notes = "투자 상품을 수정. 투자 시작이전 상품만 수정 가능")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("ADMIN")
   public ResponseEntity<ApiResponseJson> updateProduct(@RequestBody ProductDto productDto) {
     productManagementService.updateProduct(productDto);
     return ResponseEntity.ok(new ApiResponseJson());
@@ -62,7 +63,7 @@ public class ProductManagementController {
 
   @DeleteMapping("/{productId}")
   @ApiOperation(value = "투자 상품 삭제 API", notes = "투자 상품을 삭제. 투자 시작이전 상품만 삭제 가능")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("ADMIN")
   public ResponseEntity<ApiResponseJson> deleteProduct(@PathVariable Long productId) {
     productManagementService.deleteProduct(productId);
     return ResponseEntity.ok(new ApiResponseJson());

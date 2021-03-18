@@ -153,13 +153,13 @@
         UPDATE tb_product
         SET title = #{title}
         , total_investing_amount = #{totalInvestingAmount}::bigint
-        , started_at = #{startedAt}::timestamp
-        , finished_at = #{finishedAt}::timestamp
+        , started_at = #{startedAt, jdbcType=TIMESTAMP}::timestamp
+        , finished_at = #{finishedAt, jdbcType=TIMESTAMP}::timestamp
         , modified_time = now()
         WHERE product_id = #{productId}::bigint and started_at > now()
     </update>
 
-    <insert id="insertProduct" parameterType="com.kakaopay.project.api.productmanagement.dto.ProductDto">
+    <insert id="insertProduct" parameterType="com.kakaopay.project.api.productmanagement.dto.AddProductDto">
         INSERT INTO tb_product
             (title, product_type, total_investing_amount, started_at, finished_at, created_time, modified_time, member_id)
         VALUES

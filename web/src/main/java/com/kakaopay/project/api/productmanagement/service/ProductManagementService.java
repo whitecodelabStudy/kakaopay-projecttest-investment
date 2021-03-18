@@ -2,6 +2,7 @@ package com.kakaopay.project.api.productmanagement.service;
 
 import java.util.List;
 
+import com.kakaopay.project.api.productmanagement.dto.AddProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,11 +84,11 @@ public class ProductManagementService {
   /**
    * 투자 상품 추가.
    *
-   * @param productDto productDto
+   * @param addProductDto addProductDto
    */
   @Transactional
-  public void addProduct(ProductDto productDto) {
-    int result = productManagementMapper.insertProduct(productDto);
+  public void addProduct(AddProductDto addProductDto) {
+    int result = productManagementMapper.insertProduct(addProductDto);
     if (result == 0) {
       throw new ApiException(ApiCode.PRODUCT_ADD_FAILED, "Product modified failed!!");
     }

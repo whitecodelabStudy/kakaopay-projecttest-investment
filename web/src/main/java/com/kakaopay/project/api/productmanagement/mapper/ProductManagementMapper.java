@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import com.kakaopay.project.api.productmanagement.dto.AddProductDto;
 import com.kakaopay.project.api.productmanagement.dto.ProductDto;
 import com.kakaopay.project.api.productmanagement.dto.ProductSearchDto;
 
@@ -22,7 +23,7 @@ public interface ProductManagementMapper {
 
   int updateProduct(ProductDto productDto);
 
-  int insertProduct(ProductDto productDto);
+  int insertProduct(AddProductDto addProductDto);
 
   int selectProductCount();
 
