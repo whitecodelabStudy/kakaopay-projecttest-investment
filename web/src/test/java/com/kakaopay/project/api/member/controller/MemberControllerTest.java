@@ -35,7 +35,7 @@ class MemberControllerTest extends BaseControllerTest {
 
   @BeforeEach
   public void setup() throws Exception {
-    if (headers != null && !isMakeHeader) {
+    if (getHeaders() != null && !isMakeHeader) {
       return;
     } else {
       // access token 발급.
@@ -47,8 +47,8 @@ class MemberControllerTest extends BaseControllerTest {
   public void getMember() throws Exception {
 
     makeHeader();
-    MvcResult mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.get("/api/member").accept(MediaType.APPLICATION_JSON).headers(headers)
+    MvcResult mvcResult = getMockMvc()
+        .perform(MockMvcRequestBuilders.get("/api/member").accept(MediaType.APPLICATION_JSON).headers(getHeaders())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
@@ -61,8 +61,8 @@ class MemberControllerTest extends BaseControllerTest {
   @Transactional
   void modifyMember() throws Exception {
     UpdateMemberDto updateMemberDto = new UpdateMemberDto(Long.valueOf(20_171_036L), "테스트관리자", "1q2w3e4r");
-    MvcResult mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.put("/api/member").accept(MediaType.APPLICATION_JSON).headers(headers)
+    MvcResult mvcResult = getMockMvc()
+        .perform(MockMvcRequestBuilders.put("/api/member").accept(MediaType.APPLICATION_JSON).headers(getHeaders())
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(updateMemberDto)))
         .andDo(MockMvcResultHandlers.print()).andReturn();
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
@@ -80,7 +80,7 @@ class MemberControllerTest extends BaseControllerTest {
     addMemberDto.setName("sssue");
     addMemberDto.setMemberType("ADMIN");
     // 확인
-    MvcResult mvcResult = mockMvc
+    MvcResult mvcResult = getMockMvc()
         .perform(MockMvcRequestBuilders.post("/api/member/signup").accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(addMemberDto)))
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();

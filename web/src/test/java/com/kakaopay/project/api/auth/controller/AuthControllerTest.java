@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.kakaopay.project.api.base.controller.BaseControllerTest;
 import com.kakaopay.project.api.auth.dto.AuthMemberDto;
+import com.kakaopay.project.api.base.controller.BaseControllerTest;
 import com.kakaopay.project.api.util.TestUtil;
 import com.kakaopay.project.common.code.ApiCode;
 import com.kakaopay.project.web.WebApplication;
@@ -31,9 +31,9 @@ public class AuthControllerTest extends BaseControllerTest {
   @Test
   public void generateToken() throws Exception {
     AuthMemberDto authMemberDto = new AuthMemberDto();
-    authMemberDto.setMemberId(memberId);
-    authMemberDto.setMemberType("INVESTOR");
-    authMemberDto.setPassword("1q2w3e4r!@");
+    authMemberDto.setMemberId(100);
+    authMemberDto.setPassword("1q2w3e4r");
+    authMemberDto.setMemberType("ADMIN");
 
     assertThat(issueAccessToken(authMemberDto)).isNotEmpty();
   }
@@ -44,10 +44,10 @@ public class AuthControllerTest extends BaseControllerTest {
   @Test
   public void generateTokenBadCredentials() throws Exception {
     AuthMemberDto authMemberDto = new AuthMemberDto();
-    authMemberDto.setMemberId(memberId);
+    authMemberDto.setMemberId(getMemberId());
     authMemberDto.setMemberType("ADMIN");
     authMemberDto.setPassword("test!@");
-    MvcResult mvcResult = mockMvc
+    MvcResult mvcResult = getMockMvc()
         .perform(MockMvcRequestBuilders.post("/auth/authenticate").accept(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(authMemberDto))
             .headers(setMemberIdHeader(String.valueOf(authMemberDto.getMemberId())))
@@ -62,11 +62,11 @@ public class AuthControllerTest extends BaseControllerTest {
   @Test
   public void generateTokenMemberNotFound() throws Exception {
     AuthMemberDto authMemberDto = new AuthMemberDto();
-    authMemberDto.setMemberId(memberIdFail);
+    authMemberDto.setMemberId(getMemberFailId());
     authMemberDto.setMemberType("ADMIN");
     authMemberDto.setPassword("1q2w3e4r!@");
 
-    MvcResult mvcResult = mockMvc
+    MvcResult mvcResult = getMockMvc()
         .perform(MockMvcRequestBuilders.post("/auth/authenticate").accept(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(authMemberDto))
             .headers(setMemberIdHeader(String.valueOf(authMemberDto.getMemberId())))

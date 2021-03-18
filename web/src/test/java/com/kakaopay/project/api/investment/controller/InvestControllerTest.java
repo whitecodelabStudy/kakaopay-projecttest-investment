@@ -32,7 +32,7 @@ public class InvestControllerTest extends BaseControllerTest {
    */
   @BeforeEach
   public void setup() throws Exception {
-    if (headers != null) {
+    if (getHeaders() != null) {
       return;
     } else {
       // access token 발급.
@@ -49,8 +49,8 @@ public class InvestControllerTest extends BaseControllerTest {
   public void investProduct() throws Exception {
     InvestProductDto investProductDto = new InvestProductDto(1L, 5_555L);
     investProductDto.setMemberId(20_191_218L);
-    MvcResult mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
+    MvcResult mvcResult = getMockMvc()
+        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(getHeaders())
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
         .andDo(MockMvcResultHandlers.print()).andReturn();
 
@@ -66,8 +66,8 @@ public class InvestControllerTest extends BaseControllerTest {
   public void investProductIsSoldOut() throws Exception {
     InvestProductDto investProductDto = new InvestProductDto(1L, 1_111_111_111_111L);
     investProductDto.setMemberId(20_191_218L);
-    MvcResult mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
+    MvcResult mvcResult = getMockMvc()
+        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(getHeaders())
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
         .andDo(MockMvcResultHandlers.print()).andReturn();
 
@@ -83,8 +83,8 @@ public class InvestControllerTest extends BaseControllerTest {
   public void investProductIsFinished() throws Exception {
     InvestProductDto investProductDto = new InvestProductDto(2L, 1L);
     investProductDto.setMemberId(20_191_218L);
-    MvcResult mvcResult = mockMvc
-        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(headers)
+    MvcResult mvcResult = getMockMvc()
+        .perform(MockMvcRequestBuilders.post("/api/invest").accept(MediaType.APPLICATION_JSON).headers(getHeaders())
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(investProductDto)))
         .andDo(MockMvcResultHandlers.print()).andReturn();
 
