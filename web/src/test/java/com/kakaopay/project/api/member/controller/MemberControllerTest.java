@@ -1,16 +1,13 @@
 package com.kakaopay.project.api.member.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Random;
+import java.util.LinkedHashMap;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -19,74 +16,78 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.kakaopay.project.api.base.controller.BaseControllerTest;
-import com.kakaopay.project.api.member.dto.AddMemberDto;
 import com.kakaopay.project.api.member.dto.UpdateMemberDto;
 import com.kakaopay.project.api.util.TestUtil;
 import com.kakaopay.project.common.apiformat.ApiResponseJson;
 import com.kakaopay.project.common.code.ApiCode;
 import com.kakaopay.project.web.WebApplication;
 
-@RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
+@Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WebApplication.class)
 class MemberControllerTest extends BaseControllerTest {
 
-  private boolean isMakeHeader = true;
-
-  @BeforeEach
-  public void setup() throws Exception {
-    if (getHeaders() != null && !isMakeHeader) {
-      return;
-    } else {
-      // access token 발급.
-      makeHeader();
-    }
-  }
+  private boolean isFirstSignUp = true;
 
   @Test
-  public void getMember() throws Exception {
+  @Transactional
+  void getMember() throws Exception {
+    LinkedHashMap<String, Object> hashMap = getMember(200L, "!@1q2w3e4r", "ADMIN");
+    assertEquals(Long.valueOf(hashMap.get("memberId").toString()), 200L);
+    assertEquals(hashMap.get("memberType").toString(), "ADMIN");
+  }
 
-    makeHeader();
+  public LinkedHashMap<String, Object> getMember(Long memberId, String password, String memberType) throws Exception {
+
+    generateToken(memberId, password, memberType);
+
     MvcResult mvcResult = getMockMvc()
         .perform(MockMvcRequestBuilders.get("/api/member").accept(MediaType.APPLICATION_JSON).headers(getHeaders())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
 
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
-    assertThat(apiResponseJson.getResponse().size()).isEqualTo(1);
+    assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
+    return (LinkedHashMap) apiResponseJson.getResponse().get(0);
   }
 
   @Test
   @Transactional
   void modifyMember() throws Exception {
-    UpdateMemberDto updateMemberDto = new UpdateMemberDto(Long.valueOf(20_171_036L), "테스트관리자", "1q2w3e4r");
+    // 등록 및 토큰 발급
+    signup();
+    // 수정.
+    UpdateMemberDto updateMemberDto = new UpdateMemberDto();
+    updateMemberDto.setMemberId(1000L);
+    updateMemberDto.setPassword("1q2w3e4r!@");
+    updateMemberDto.setName("테스트관리자");
+
     MvcResult mvcResult = getMockMvc()
         .perform(MockMvcRequestBuilders.put("/api/member").accept(MediaType.APPLICATION_JSON).headers(getHeaders())
             .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(updateMemberDto)))
         .andDo(MockMvcResultHandlers.print()).andReturn();
     ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
+    assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
+
+    LinkedHashMap<String, Object> hashMap = getMember(1000L, "1q2w3e4r!@", "INVESTOR");
+    assertEquals(hashMap.get("name").toString(), "테스트관리자");
+    assertEquals(hashMap.get("memberType").toString(), "INVESTOR");
   }
 
   @Test
   @Transactional
-  public void signup() throws Exception {
-    isMakeHeader = false;
-    // 사용자 추가.
-    AddMemberDto addMemberDto = new AddMemberDto();
-    addMemberDto.setMemberId(Long.valueOf(new Random().nextInt(99_999)));
-    addMemberDto.setPassword("123qwe");
-    addMemberDto.setName("sssue");
-    addMemberDto.setMemberType("ADMIN");
-    // 확인
-    MvcResult mvcResult = getMockMvc()
-        .perform(MockMvcRequestBuilders.post("/api/member/signup").accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(addMemberDto)))
-        .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
-
-    ApiResponseJson apiResponseJson = TestUtil.getApiResponseJson(mvcResult);
-    assertThat(apiResponseJson.getResultCode()).isEqualTo(ApiCode.SUCCESS.getCode());
+  void signup() throws Exception {
+    if (isFirstSignUp) {
+      // 1000 회원 등록
+      addMember(1000, "1q2w3e4r", "승후1111", "INVESTOR");
+      // 토큰 발급
+      generateToken(1000, "1q2w3e4r", "INVESTOR");
+      // 등록된 회원 조회.
+      LinkedHashMap<String, Object> hashMap = getMember(1000L, "1q2w3e4r", "INVESTOR");
+      assertEquals(Long.valueOf(hashMap.get("memberId").toString()), 1000L);
+      assertEquals(hashMap.get("memberType").toString(), "INVESTOR");
+    }
+    isFirstSignUp = false;
   }
 
 }

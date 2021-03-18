@@ -213,6 +213,7 @@ $$;
 -- 테스트 데이터 입력.
 --
 -- 관리자 테스트 데이터 (비밀번호가 암호화가 안되어 수정테스트 이후 가능)
+/*
 INSERT INTO public.tb_member (member_id, "password", "name", member_type, created_time, modified_time)
 VALUES(20171036, '1q2w3e4r','상품관리자', 'ADMIN', now(), now());
 INSERT INTO public.tb_member (member_id, "password","name", member_type, created_time, modified_time)
@@ -239,6 +240,8 @@ INSERT INTO tb_product (title, "product_type", total_investing_amount, started_a
 VALUES('3기신도시 투기지역', 'REAL_ESTATE', 1000000, '2021-04-01', '2021-05-10', NOW(), NOW(), 20171036);
 
 -- 투자 정보
+
+ */
 
 
 /* 테이블 초기화 하기 */

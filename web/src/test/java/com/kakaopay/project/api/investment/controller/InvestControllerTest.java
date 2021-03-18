@@ -2,7 +2,6 @@ package com.kakaopay.project.api.investment.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,21 +23,6 @@ import com.kakaopay.project.web.WebApplication;
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WebApplication.class)
 public class InvestControllerTest extends BaseControllerTest {
-
-  /**
-   * setup
-   *
-   * @throws Exception
-   */
-  @BeforeEach
-  public void setup() throws Exception {
-    if (getHeaders() != null) {
-      return;
-    } else {
-      // access token 발급.
-      makeHeader();
-    }
-  }
 
   /**
    * investProduct 정상 투자 성공

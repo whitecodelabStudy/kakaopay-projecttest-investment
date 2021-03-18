@@ -12,6 +12,8 @@ public enum ApiCode {
     SUCCESS("SUC-0000"),
     // 알수없는 오류
     UNKNOWN_ERROR("ERR-9999"),
+    SQL_ERROR("ERR-9998"),
+    ACCESS_DENIED_ERROR("ERR-9997"),
     // SOLD_OUT
     SOLD_OUT("ERR-0001"),
     // MEMBER_NOT_FOUND
