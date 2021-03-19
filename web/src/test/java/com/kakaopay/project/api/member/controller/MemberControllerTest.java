@@ -27,8 +27,6 @@ import com.kakaopay.project.web.WebApplication;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WebApplication.class)
 class MemberControllerTest extends BaseControllerTest {
 
-  private boolean isFirstSignUp = true;
-
   @Test
   @Transactional
   void getMember() throws Exception {
@@ -60,7 +58,7 @@ class MemberControllerTest extends BaseControllerTest {
     UpdateMemberDto updateMemberDto = new UpdateMemberDto();
     updateMemberDto.setMemberId(1000L);
     updateMemberDto.setPassword("1q2w3e4r!@");
-    updateMemberDto.setName("테스트관리자");
+    updateMemberDto.setName("TEST_ADMIN");
 
     MvcResult mvcResult = getMockMvc()
         .perform(MockMvcRequestBuilders.put("/api/member").accept(MediaType.APPLICATION_JSON).headers(getHeaders())
@@ -70,24 +68,21 @@ class MemberControllerTest extends BaseControllerTest {
     assertEquals(apiResponseJson.getResultCode(), ApiCode.SUCCESS.getCode());
 
     LinkedHashMap<String, Object> hashMap = getMember(1000L, "1q2w3e4r!@", "INVESTOR");
-    assertEquals(hashMap.get("name").toString(), "테스트관리자");
+    assertEquals(hashMap.get("name").toString(), "TEST_ADMIN");
     assertEquals(hashMap.get("memberType").toString(), "INVESTOR");
   }
 
   @Test
   @Transactional
   void signup() throws Exception {
-    if (isFirstSignUp) {
-      // 1000 회원 등록
-      addMember(1000, "1q2w3e4r", "승후1111", "INVESTOR");
-      // 토큰 발급
-      generateToken(1000, "1q2w3e4r", "INVESTOR");
-      // 등록된 회원 조회.
-      LinkedHashMap<String, Object> hashMap = getMember(1000L, "1q2w3e4r", "INVESTOR");
-      assertEquals(Long.valueOf(hashMap.get("memberId").toString()), 1000L);
-      assertEquals(hashMap.get("memberType").toString(), "INVESTOR");
-    }
-    isFirstSignUp = false;
+    // 1000 회원 등록
+    addMember(1000, "1q2w3e4r", "tiger", "INVESTOR");
+    // 토큰 발급
+    generateToken(1000, "1q2w3e4r", "INVESTOR");
+    // 등록된 회원 조회.
+    LinkedHashMap<String, Object> hashMap = getMember(1000L, "1q2w3e4r", "INVESTOR");
+    assertEquals(Long.valueOf(hashMap.get("memberId").toString()), 1000L);
+    assertEquals(hashMap.get("memberType").toString(), "INVESTOR");
   }
 
 }
