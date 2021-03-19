@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,9 +68,6 @@ public class AuthController {
       // token 생성
       return ResponseEntity.ok(
           new ApiResponseJson.Builder(new AccessTokenDto(this.jwtTokenProvider.generateToken(userDetails))).build());
-    } catch (UsernameNotFoundException e) {
-      log.error("Member not found!!", e);
-      throw new ApiException(ApiCode.MEMBER_NOT_FOUND, "Member not found!!", e).setHttpStatus(HttpStatus.NO_CONTENT);
     } catch (BadCredentialsException be) {
       log.error("Bad Credentials!!", be);
       throw new ApiException(ApiCode.BAD_CREDENTIALS, "Bad Credentials!!", be).setHttpStatus(HttpStatus.UNAUTHORIZED);
