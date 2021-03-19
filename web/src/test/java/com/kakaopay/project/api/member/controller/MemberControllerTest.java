@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -22,12 +25,14 @@ import com.kakaopay.project.common.apiformat.ApiResponseJson;
 import com.kakaopay.project.common.code.ApiCode;
 import com.kakaopay.project.web.WebApplication;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WebApplication.class)
 class MemberControllerTest extends BaseControllerTest {
 
   @Test
+  @Order(1)
   @Transactional
   void getMember() throws Exception {
     LinkedHashMap<String, Object> hashMap = getMember(200L, "!@1q2w3e4r", "ADMIN");
@@ -51,6 +56,7 @@ class MemberControllerTest extends BaseControllerTest {
 
   @Test
   @Transactional
+  @Order(3)
   void modifyMember() throws Exception {
     // 등록 및 토큰 발급
     signup();
@@ -74,6 +80,7 @@ class MemberControllerTest extends BaseControllerTest {
 
   @Test
   @Transactional
+  @Order(2)
   void signup() throws Exception {
     // 1000 회원 등록
     addMember(1000, "1q2w3e4r", "tiger", "INVESTOR");
